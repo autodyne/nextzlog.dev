@@ -1,0 +1,46 @@
+remote_theme: nextzlog/pafe
+url: https://book.nextzlog.dev
+name: 無線部の記事
+icon: /assets/head.png
+lead: automatic tabulation system for hamradio contests, parallel computing framework, programming language processors, machine learning, etc.
+desc: アマチュア無線のコンテスト運営システムから, 並列計算フレームワーク, プログラミング言語処理系, 機械学習まで, ソフトウェア科学の記事を公開.
+items:
+- name: ATS-4
+  href: /ats4.html
+- name: 自作言語
+  href: /fava.html
+- name: 機械学習
+  href: /mine.html
+- name: 並列処理
+  href: /dusk.html
+- name: 並列言語
+  href: /chpl.html
+- name: ZyLO
+  href: /zylo.html
+links:
+- name: Twitter
+  href: https://twitter.com/nextzlog
+  icon: fab fa-twitter
+- name: 無線部開発班
+  href: https://nextzlog.dev
+jumps:
+- name: autodyne
+  href: https://github.com/autodyne
+  icon: fab fa-github
+- name: nextzlog
+  href: https://github.com/nextzlog
+  icon: fab fa-github
+briefs:
+  ats4: アマチュア無線のコンテストの集計作業を自動化。様々なコンテストに対応。楽しく開催できます。
+  chpl: 型推論とテンプレートと区分化大域アドレス空間を特徴とした並列プログラミング言語の解説記事。
+  dusk: 軽量スレッドによるタスク並列処理系を自作密行列積の速度を実測。高性能計算の基礎を学びます。
+  fava: 関数型言語を自作。パーサコンビネータも型推論も仮想マシンも手作り。計算論の基礎を学びます。
+  mine: 線型回帰からカーネル法まで。決定木から変分ベイズ法まで。機械学習の理論を実践的に学びます。
+  qxsl: 汎用的なドメイン特化言語であらゆる書式の交信記録の処理とコンテストの得点計算に対応します。
+  real: 令和の時代に新たなアマチュア無線の姿を模索。ありのままの得点状況を、全参加者に配信します。
+  zlog: 長年に渡り、コンテストを愛する数多の無線家に支持される。簡単な操作性のロギングソフトです。
+google_analytics: UA-75073167-1
+plugins:
+- jekyll-sitemap
+exclude:
+- books

@@ -1,0 +1,352 @@
+\documentclass[10pt,a4paper]{book}
+
+\NewDocumentCommand\MHz{m}{#1~MHz}
+\NewDocumentCommand\GHz{m}{#1~GHz}
+\NewDocumentCommand\ats{m}{\texttt{ATS-#1}型}
+
+\NewDocumentCommand\jaURL{}{https://ja1zlo.u-tokyo.org/allja1}
+\NewDocumentCommand\rtURL{}{https://ja1zlo.u-tokyo.org/rt/rt1.html}
+\NewDocumentCommand\ueURL{}{https://www.ja1zgp.com}
+\NewDocumentCommand\taURL{}{http://apollo.c.ooco.jp}
+\NewDocumentCommand\adiURL{}{https://adif.org}
+\NewDocumentCommand\cbrURL{}{https://wwrof.org/cabrillo/}
+\NewDocumentCommand\sbtURL{}{https://scala-sbt.org}
+\NewDocumentCommand\jarlURL{}{https://jarl.org}
+
+\NewDocumentCommand\ja{}{\href{\jaURL}{ALLJA1コンテスト}}
+\NewDocumentCommand\rt{}{\href{\rtURL}{リアルタイムコンテスト}}
+\NewDocumentCommand\ue{}{\href{\ueURL}{電通大コンテスト}}
+\NewDocumentCommand\ta{}{\href{\taURL}{多摩川コンテスト}}
+\NewDocumentCommand\adi{}{\href{\adiURL}{ADIF}}
+\NewDocumentCommand\cbr{}{\href{\cbrURL}{Cabrillo}}
+\NewDocumentCommand\sbt{}{\href{\sbtURL}{\texttt{sbt}}}
+\NewDocumentCommand\jarl{}{\href{\jarlURL}{JARL}}
+
+\NewDocumentCommand\qxml{}{\texttt{qxml}}
+\NewDocumentCommand\qxsl{}{\texttt{qxsl}}
+
+\book{コンテスト運営を支援する自動集計システム}{Amateur-Radio Contest Administration System}{4}{アマチュア無線,コンテスト,自動集計}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\chapter{はじめに}
+
+本稿で解説する\textbf{自動集計システム}は、アマチュア無線のコンテストの効率的な運営を支援する、\textbf{ウェブシステム}である。
+\ja{}を対象に、参加者の集計と結果発表を迅速化する目的で整備された。2014年以来の運用実績がある。
+
+\section{開発の経緯}
+
+\ja{}は毎年6月の開催だが、2009年に部員が数名に減勢した我が無線部では、開催困難な状況に陥った。
+運営業務は、以下の3段階に区分できるが、開催後の業務の負担が課題で、結果発表が年度末まで遅延する有様だった。
+
+\begin{table}[H]
+\raggedright
+\begin{tabular}{Bl}
+開催前の業務 & 規約策定と告知 \\
+開催中の業務 & 開催状況の把握 \\
+開催後の業務 & 書類受付 $\cdot$ 採点 $\cdot$ 審査 $\cdot$ 暫定結果発表 $\cdot$ 最終結果発表 $\cdot$ 賞状発送
+\end{tabular}
+\end{table}
+
+2010年の増勢により、当面は開催を継続する方針に決着したが、外部に運営を委託する可能性も検討される状況だった。
+駒場には委託に抵抗を感じる学生もおり、単独での運営を継続するために整備を始めたのが、下記のシステム群である。
+
+\begin{table}[H]
+\raggedright
+\begin{tabular}{lllD}
+\ats{1} & 2012年 & 第25回 & 部分的なサマリーシートの自動処理の実現 \\
+\ats{2} & 2013年 & 第26回 & 書類解析の厳密かとウェブ書類受付の実現 \\
+\ats{3} & 2014年 & 第27回 & 書類解析と暫定結果発表のリアルタイム化 \\
+\ats{4} & 2017年 & 第30回 & 自動集計システムとコンテスト規約の分離 \\
+\end{tabular}
+\end{table}
+
+2013年には、交信記録を完全に自動処理できる\ats{2}を試作し、悲願だった、締切から2日での結果速報を達成した。
+2021年には、従来の\ja{}に加え、JS2FVOらの発案で\rt{}の運営業務にも対応した。
+
+\section{実装の公開}
+
+現行の\ats{4}の完全な実装は、GitHubで無償公開している。Gitを利用して、以下の操作で最新の実装を取得できる。
+
+\begin{Verbatim}{bash}
+$ git clone https://github.com/nextzlog/ats4
+\end{Verbatim}
+
+以下の操作で起動できる。ただし、\ats{4}の開発言語はScalaなので、\ats{4}のビルドと起動には\sbt{}が必要である。
+
+\begin{Verbatim}{bash}
+$ cd ats4
+$ sbt "start -Dhttp.port=8000"
+\end{Verbatim}
+
+\ats{4}では、交信記録の解析や得点計算を再利用可能な形で整備した。これが\qxsl{}である。以下の操作で取得できる。
+
+\begin{Verbatim}{bash}
+$ git clone https://github.com/autodyne/qxsl
+\end{Verbatim}
+
+\ats{4}の特色は、\textbf{ドメイン特化言語}による規約の定義を修正すれば、容易に様々なコンテストに移植可能な点にある。
+具体的には、交信記録の解析や得点計算が、RubyやLISPで記述される。以下に、対応済みの規約と、その実装を示す。
+
+\begin{table}[H]
+\raggedright
+\begin{tabular}{Bl}
+\ue{}の例 & \url{https://github.com/nextzlog/ats4/blob/master/conf/rules/JA1ZGP/uec.rb} \\
+\ta{}の例 & \url{https://github.com/nextzlog/ats4/blob/master/conf/rules/JI1YEG/tama.rb} \\
+\end{tabular}
+\end{table}
+
+我が無線部では、全てのコンテストが\ats{4}を活用する将来を構想しており、\ats{4}の移植は、無償で受け付ける。
+
+\chapter{従来方式\label{chap:mail}}
+
+我が無線部では、開催後の書類受付の要領を抜本的に見直し、書類の曖昧性を排除して、自動処理する方法を模索した。
+日本国内のコンテストでは、\jarl{}が推奨する\textbf{サマリーシート}を、電子メールに添付して提出する方法が標準的である。
+
+\begin{Verbatim}{bash}
+<SUMMARYSHEET VERSION=R2.0>
+<CALLSIGN>JA1ZLO</CALLSIGN>
+<TOTALSCORE>64</TOTALSCORE>
+<CONTESTNAME>ALLJA1</CONTESTNAME>
+<CATEGORYCODE>XMAH</CATEGORYCODE>
+<LOGSHEET TYPE=ZLOG>
+mon day time  callsign      sent         rcvd      multi   MHz mode pts memo
+  6   1 0932 JA1YAD     100110       59100110     100110    14 SSB  1   
+  6   1 0956 JA1YYE     100110       5913009      13009     28 SSB  1   
+  6   1 1002 JA1YXP     100110       59134404     134404    50 AM   1   
+  6   1 1027 JR1ZTT     100110       591420       1420      21 SSB  1   
+  6   1 1629 JA1YCG     100110       59110109     110109     7 SSB  1   
+  6   1 1637 JA1YDU     100110       5991216      1216       7 CW   1   
+  6   1 1717 JA1ZGP     100110       5991009      1009       7 CW   1   
+  6   1 1738 JA1YGX     100110       59100105     100105     7 SSB  1   
+</LOGSHEET>
+</SUMMARYSHEET>
+\end{Verbatim}
+
+交信記録に加え、参加者の氏名や連絡先に、参加部門を記載する。しかし、曖昧性が高く、自動処理には不適切である。
+例えば、\ats{1}の開発段階では、参加部門を確定する際に、その曖昧さ故に、稚拙な判別方法を採用する必要があった。
+
+\begin{table}[H]
+\raggedright
+\begin{tabular}{Bl}
+電信と電話の判別 & 要素\texttt{CATEGORYNAME}の値に語「\textgt{電話}」があれば\textgt{電信電話}部門 \\
+運用エリアの検査 & 要素\texttt{CATEGORYNAME}の値に語「\textgt{内}」があれば\textgt{関東エリア}部門 \\
+社団と個人の判別 & 要素\texttt{CATEGORYNAME}の値に語「\textgt{マルチ}」があれば\textgt{社団局}部門 \\
+\end{tabular}
+\end{table}
+
+また、交信の日時や相手や周波数を記載した\texttt{LOGSHEET}の部分には、規格化された書式がなく、実質的には自由欄だった。
+交信を記録するソフトウェア毎に独自の書式が乱立して、構造や属性の形式的な定義も提供されず、曖昧な状態である。
+
+\begin{Verbatim}{bash}
+<LOGSHEET TYPE=JA1ZLO-ORIGINAL-FORMAT>
+\end{Verbatim}
+
+曖昧な類似性を標準規格と嘯く有様である。属性には複数の意味が存在し、以下の2行は、同じ意味や異なる意味になる。
+
+\begin{Verbatim}{bash}
+2015-06-07 09:01   JA1YWX   100105
+2015-06-07 09:01   JA1YWX   59100105
+\end{Verbatim}
+
+国際的なコンテストの場合は、交信記録の書式を厳格に規定した事例があり、\cbr{}や\adi{}が代表的な書式である。
+前者はコンテスト毎に詳細が異なり、交信を記録するソフトウェア側で個別のコンテストの書式に対応する必要がある。
+
+\begin{Verbatim}{bash}
+START-OF-LOG: 3.0
+CALLSIGN: JA1ZLO
+QSO:  7000 CW 1919-08-10 0364 JA1ZLO        599 114514 JA1YWX        599 889464 0
+QSO:  7000 CW 1919-08-10 0364 JA1ZLO        599 114514 JA1YWX        599 889464 0
+\end{Verbatim}
+
+後者は、規格が厳密で拡張性もあるが、名前空間の概念がなく、独自に定義された属性の名前が重複する可能性がある。
+独自定義の属性を自動的に検証する仕組みも、参加部門の曖昧さを解決する仕組みもなく、運用次第では曖昧さが残る。
+
+\begin{Verbatim}{bash}
+<CALL:6>QI1JDS<QSO_DATE:8>20170604<time_on:6>000000<MODE:2>CW<band:3>10m<RST_RCVD:3>599<SRX:4>1005<eor>
+<CALL:6>QD2LVE<QSO_DATE:8>20170604<time_on:6>000100<MODE:2>CW<band:3>20m<RST_RCVD:3>599<SRX:4>1336<eor>
+\end{Verbatim}
+
+\chapter{書類提出}
+
+\chapref{mail}で提起した問題意識から、我が無線部ではウェブ提出の仕組みを構築して、電子メールでの書類受付を廃止した。
+\ats{3}の開発では、PCの操作が苦手な参加者に配慮して、無駄な画面遷移を排除し、\textbf{ユーザビリティ}の確保に努めた。
+
+\section{書類提出の開始\label{sect:entry}}
+
+参加者は交信記録を準備して、\ats{4}にアクセスする。書類提出のボタンを押すと、\figref{entry}に示す画面が表示される。
+呼出符号や連絡先を記入し、運用場所と部門を選ぶ。\sectref{upload}に解説する手順で交信記録を添付し、提出のボタンを押す。
+
+\begin{figure}[H]
+\vspace{1ex}
+\centering
+\includegraphics[width=\linewidth]{images/ats4.warn.eps}
+\caption{entry sheet.\label{fig:entry}}
+\end{figure}
+
+必要な情報が空欄の場合は、赤字で表示されるので、修正して提出する。この仕組みにより、書類の曖昧さが排除できる。
+なお、\jarl{}が推奨するサマリーシートとは異なり、宣誓欄や資格や署名などの記入欄を削除して、画面を簡素化した。
+
+\section{交信記録の添付\label{sect:upload}}
+
+\sectref{entry}で必要な情報を記入した後で、\figref{upload}に示すファイル選択画面で、交信記録を添付して、提出のボタンを押す。
+これで、種類提出は完了である。登録内容を確認する画面が表示され、誤りがあれば、締切までに何度でも再提出できる。
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{images/ats4.file.eps}
+\caption{upload form for the operational log.\label{fig:upload}}
+\end{figure}
+
+\ats{4}は、交信記録の書式を自動的に判別する機能を備える。以下の書式に対応済みで、殆どの交信記録を網羅する。
+自動判別の精度の都合で、CTESTWINの場合はLG8を、zLogの場合はZLOを、それ以外の場合はADIFを推奨する。
+
+\begin{table}[H]
+\raggedright
+\begin{tabular}{BT}
+形式言語型 & qxml, ADIF \\
+バイナリ型 & CTESTWIN(LG8), zLog(ZLO) \\
+テキスト型 & CTESTWIN(TXT), zLog(TXT), zLog(ALL), Cabrillo(CQWW), JARL R2.0 \\
+\end{tabular}
+\end{table}
+
+参加者の便宜を図るため、\jarl{}が推奨するサマリーシートの提出にも対応したが、\texttt{LOGSHEET}以外の内容は無視される。
+また、確実に読み取れる保証がなく非推奨だが、各種のソフトウェアが出力するプレーンテキストの書式にも対応した。
+
+\begin{table}[H]
+\begin{minipage}{.85\hsize}
+\begin{Verbatim}{bash}
+(zLog DOS)
+ MM  dd HHmm CCCCCCCCCC SSSSSSSSSSSS RRRRRRRRRRRR ****** BBBBB EEEE *** NNNN
+  6   4 0117     QV1DOK    599100110    599120103           14   CW 1
+  6   4 0151     QC2SOA    599100110      5991308           50   CW 1
+
+(zLog ALL)
+yyyy/MM/dd HH:mm CCCCCCCCCCCC sss SSSSSSS rrr RRRRRRR ***** ***** BBBB EEEE ** NNNN
+2017/06/04 01:17 QV1DOK       599 100110  599 120103  120103-     14   CW   1
+2017/06/04 01:51 QC2SOA       599 100110  599 1308    1308  -     50   CW   1
+
+(CTESTWIN)
+**** MM/dd HHmm CCCCCCCCCCC BBBBBBB EEEE SSSSSSSSSSSS RRRRRRRRRRRR
+   1  6/ 4 0117      QV1DOK 14MHz     CW    599100110    599120103
+   2  6/ 4 0151      QC2SOA 50MHz     CW    599100110      5991308
+\end{Verbatim}
+\end{minipage}
+\begin{minipage}{.14\hsize}
+\footnotesize
+\begin{tabular}{Tl}
+y & 年       \\
+M & 月       \\
+d & 日       \\
+H & 時       \\
+m & 分       \\
+C & 呼出符号 \\
+B & 周波数帯 \\
+F & 周波数   \\
+E & 変調方式 \\
+S & 送信符号 \\
+R & 受信符号 \\
+s & 送信RST  \\
+r & 受信RST  \\
+O & 運用者名 \\
+N & 備考     \\
+* & 無視     \\
+\end{tabular}
+\end{minipage}
+\end{table}
+
+以上のプレーンテキストの書式は、固定長の書式か、備考欄のみ可変長の書式と見做しベストエフォートで処理される。
+なお、\jarl{}が2016年に改訂したサマリーシートR2.0の\texttt{LOGSHEET}の部分は、可変長とする。\texttt{+}は任意長の反復を表す。
+
+\begin{Verbatim}{bash}
+(jarl)
+yyyy-MM-dd HH:mm B+ E+ C+ s+ S+ r+ R+
+\end{Verbatim}
+
+\section{提出書類の確認}
+
+書類提出が終わると、自動集計システムは、内容を簡単に検査して暫定の得点を計算し、参加者に確認画面を送り返す。
+
+\begin{figure}[H]
+\centering
+\subfloat[general profile.]{\includegraphics[width=\linewidth]{images/ats4.talk.eps}}\\
+\subfloat[temporary score.]{\includegraphics[width=\linewidth]{images/ats4.temp.eps}}\\
+\subfloat[operational log.]{\includegraphics[width=\linewidth]{images/ats4.list.eps}}
+\caption{submission certificate.}
+\end{figure}
+
+参加者は、交信記録が適切に処理された旨を自分で確認する必要がある。必要なら、締切までに修正して再提出できる。
+
+\chapter{推奨書式}
+
+\qxml{}は、\ats{4}の内部で使われる書式である。\adi{}と対照的に、最小限を志向し、名前空間による拡張性を有する。
+
+\begin{Verbatim}{Java}
+<list xmlns:qxsl="qxsl.org">
+	<item qxsl:time="2017-06-04T00:00:00Z" qxsl:call="QP3GES" qxsl:band="14000" qxsl:mode="CW">
+		<rcvd qxsl:code="100105" qxsl:rstq="599"/>
+		<sent qxsl:code="100110" qxsl:rstq="599"/>
+	</item>
+</list>
+\end{Verbatim}
+
+具体的な処理はドメイン特化言語で記述される。標準的には、\tabref{qxml}に示す名前空間\texttt{qxsl.org}の属性が利用される。
+
+\begin{table}[H]
+\centering
+\caption{qxml attributes.\label{tab:qxml}}
+\begin{tabular}{llllll} \toprule
+周波数帯 & \verb|{qxsl.org}band| & キロヘルツ単位の周波数 & 運用者名 & \verb|{qxsl.org}name| & 印字可能な任意の文字列 \\ \midrule
+呼出符号 & \verb|{qxsl.org}call| & 印字可能な任意の文字列 & 特記事項 & \verb|{qxsl.org}note| & 印字可能な任意の文字列 \\ \midrule
+運用場所 & \verb|{qxsl.org}city| & 都道府県及び市郡区番号 & 受信状況 & \verb|{qxsl.org}rstq| & 了解度と信号強度と音調 \\ \midrule
+識別番号 & \verb|{qxsl.org}code| & 印字可能な任意の文字列 & 交信時刻 & \verb|{qxsl.org}time| & 秒単位までの精度の時刻 \\ \midrule
+変調方式 & \verb|{qxsl.org}mode| & 印字可能な任意の文字列 & 送信電力 & \verb|{qxsl.org}watt| & 印字可能な任意の文字列 \\ \bottomrule
+\end{tabular}
+\end{table}
+
+他には、zLogのバイナリデータが推奨される。冒頭の256バイトは無視され、以後は256バイト毎に1件の交信を表す。
+その仕様を\tabref{zlog}に示す。交信日時の整数部は、1899年12月30日からの日数で、小数部はその日の経過時間を表す。
+
+\begin{table}[H]
+\centering
+\caption{zLog binary file.\label{tab:zlog}}
+\subfloat[attributes.]{
+\begin{tabular}{rrTTll} \toprule
+位置 & 長さ & 種別 & 属性 & 書式    & 備考                       \\ \midrule
+0    & 8    & item & time & IEEE754 & リトルエンディアン         \\ \midrule
+8    & 13   & item & call & ASCII   & 冒頭は文字列の長さ         \\ \midrule
+21   & 31   & sent & code & ASCII   & 冒頭は文字列の長さ         \\ \midrule
+52   & 31   & rcvd & code & ASCII   & 冒頭は文字列の長さ         \\ \midrule
+84   & 2    & sent & rstq & 整数値  & リトルエンディアン         \\ \midrule
+86   & 2    & rcvd & rstq & 整数値  & リトルエンディアン         \\ \midrule
+92   & 1    & item & mode & 列挙型  & \texttt{CW,SSB,FM,AM,RTTY} \\ \midrule
+93   & 1    & item & band & 列挙型  & 右表参照                   \\ \midrule
+94   & 1    & sent & watt & 列挙型  & \texttt{P,L,M,H}           \\ \midrule
+160  & 15   & item & name & MS932   & 冒頭は文字列の長さ         \\ \midrule
+175  & 65   & item & note & MS932   & 冒頭は文字列の長さ         \\ \bottomrule
+\end{tabular}
+}
+\quad
+\subfloat[frequencies.]{
+\begin{tabular}{TrTr} \toprule
+値  & 周波数 & 値 & 周波数 \\ \midrule
+\ 0 & \MHz{1.9} & 11 & \MHz{430} \\ \midrule
+\ 1 & \MHz{3.5} & 12 & \GHz{1.2} \\ \midrule
+\ 2 & \MHz{7}   & 13 & \GHz{2.4} \\ \midrule
+\ 3 & \MHz{10}  & 14 & \GHz{5.6} \\ \midrule
+\ 4 & \MHz{14}  & 15 & \GHz{10}  \\ \midrule
+\ 5 & \MHz{18}  &    &           \\ \midrule
+\ 6 & \MHz{21}  &    &           \\ \midrule
+\ 7 & \MHz{24}  &    &           \\ \midrule
+\ 8 & \MHz{28}  &    &           \\ \midrule
+\ 9 & \MHz{50}  &    &           \\ \midrule
+ 10 & \MHz{144} &    &           \\ \bottomrule
+\end{tabular}
+}
+\end{table}
+
+これ以外にも、\ats{4}では、所定のインターフェースを実装したプラグインを通じて、様々な交信記録に対応できる。
+
+\end{document}

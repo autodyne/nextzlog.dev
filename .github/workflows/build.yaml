@@ -1,0 +1,90 @@
+on:
+  push:
+    branches:
+    - 'master'
+permissions:
+  contents: write
+  id-token: write
+  pages: write
+jobs:
+  Compile:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        book:
+        - ats4
+        - chpl
+        - dusk
+        - fava
+        - mine
+    steps:
+    - uses: actions/checkout@v2
+    - uses: dsaltares/fetch-gh-release-asset@master
+      with:
+        repo: nextzlog/nomd
+        file: nomd.jar
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: jruby
+    - run: |
+        sudo apt install inkscape pdf2svg
+        jruby books/mark.rb ${{matrix.book}}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: books
+        path: ${{matrix.book}}
+  Figures:
+    needs: Compile
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo:
+        - fava
+        - mine
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: autodyne/${{matrix.repo}}
+    - uses: actions/upload-artifact@v2
+      with:
+        name: images
+        path: images/*.png
+  Prepare:
+    needs: Figures
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+        path: pages
+    - run: sudo apt install pdf2svg
+    - run: |
+        for f in *.pdf
+        do
+          pdf2svg $f "${f%.*}.%02d.svg" all
+        done
+      working-directory:
+        books
+    - run: |
+        mv books/*.pdf pages
+        mv books/*.*.svg pages/images
+        mv files/*/*.png pages/images
+        mv pages/books/????.md pages
+    - uses: actions/configure-pages@v2
+    - uses: actions/jekyll-build-pages@v1
+      with:
+        source: pages
+    - uses: actions/upload-pages-artifact@v1
+    - uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish_dir: pages
+        publish_branch: zenn
+        github_token: ${{secrets.GITHUB_TOKEN}} 
+  Publish:
+    needs: Prepare
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    steps:
+    - uses: actions/deploy-pages@v1
