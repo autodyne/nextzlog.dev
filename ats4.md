@@ -10,16 +10,17 @@ web: https://zenn.dev/nextzlog/books/amateur-radio-contest-administration-system
 本稿で解説する**自動集計システム**は、アマチュア無線のコンテストの効率的な運営を支援する、**ウェブシステム**である。
 [ALLJA1コンテスト](https://ja1zlo.u-tokyo.org/allja1)を対象に、参加者の集計と結果発表を迅速化する目的で整備された。2014年以来の運用実績がある。
 
-### 1.1 開発の経緯
+### 1.1 経緯
 
 [ALLJA1コンテスト](https://ja1zlo.u-tokyo.org/allja1)は毎年6月の開催だが、2009年に部員が数名に減勢した我が無線部では、開催困難な状況に陥った。
-運営業務は、以下の3段階に区分できるが、開催後の業務の負担が課題で、結果発表が年度末まで遅延する有様だった。
+運営業務は、以下の4段階に区分できるが、書類審査の負担が重く、恒常的に結果発表が年度末まで遅れる状況だった。
 
 |-|-|
 |---|---|
 |開催前の業務 | 規約策定と告知 |
 |開催中の業務 | 開催状況の把握 |
-|開催後の業務 | 書類受付  $\cdot$  採点  $\cdot$  審査  $\cdot$  暫定結果発表  $\cdot$  最終結果発表  $\cdot$  賞状発送|
+|審査中の業務 | 書類受付  $\cdot$  書類審査 |
+|審査後の業務 | 結果発表  $\cdot$  賞状発送|
 
 2010年の増勢により、当面は開催を継続する方針に決着したが、外部に運営を委託する可能性も検討される状況だった。
 駒場には委託に抵抗を感じる学生もおり、単独での運営を継続するために整備を始めたのが、下記のシステム群である。
@@ -34,36 +35,32 @@ web: https://zenn.dev/nextzlog/books/amateur-radio-contest-administration-system
 2013年には、交信記録を完全に自動処理できるATS-2型を試作し、悲願だった、締切から2日での結果速報を達成した。
 2021年には、従来の[ALLJA1コンテスト](https://ja1zlo.u-tokyo.org/allja1)に加え、JS2FVOらの発案で[リアルタイムコンテスト](https://ja1zlo.u-tokyo.org/rt/rt1.html)の運営業務にも対応した。
 
-### 1.2 実装の公開
+### 1.2 特色
 
-現行のATS-4型の完全な実装は、GitHubで無償公開している。Gitを利用して、以下の操作で最新の実装を取得できる。
-
-```bash
-$ git clone https://github.com/nextzlog/ats4
-```
-
-以下の操作で起動できる。ただし、ATS-4型の開発言語はScalaなので、ATS-4型のビルドと起動には[sbt](https://scala-sbt.org)が必要である。
-
-```bash
-$ cd ats4
-$ sbt "start -Dhttp.port=8000"
-```
-
-ATS-4型では、交信記録の解析や得点計算を再利用可能な形で整備した。これがqxslである。以下の操作で取得できる。
-
-```bash
-$ git clone https://github.com/autodyne/qxsl
-```
-
-ATS-4型の特色は、**ドメイン特化言語**による規約の定義を修正すれば、容易に様々なコンテストに移植可能な点にある。
-具体的には、交信記録の解析や得点計算が、RubyやLISPで記述される。以下に、対応済みの規約と、その実装を示す。
+ATS-4型の特色は、任意のコンテストを**ドメイン特化言語**で定義でき、規約の変更や移植に柔軟に対応可能な点にある。
+ATS-4型の移植や設置の相談は、[nextzlog/todo](https://github.com/nextzlog/todo/issues)で受け付ける。以下に、既に対応を果たした規約と、その実装を示す。
 
 |-|-|
 |---|---|
-|[電通大コンテスト](https://www.ja1zgp.com)の例 | [https://github.com/nextzlog/ats4/blob/master/conf/rules/JA1ZGP/uec.rb](https://github.com/nextzlog/ats4/blob/master/conf/rules/JA1ZGP/uec.rb) |
-|[多摩川コンテスト](http://apollo.c.ooco.jp)の例 | [https://github.com/nextzlog/ats4/blob/master/conf/rules/JI1YEG/tama.rb](https://github.com/nextzlog/ats4/blob/master/conf/rules/JI1YEG/tama.rb)|
+|[電通大コンテスト](https://www.ja1zgp.com) | [https://github.com/nextzlog/ats4/blob/master/conf/rules/JA1ZGP/uec.rb](https://github.com/nextzlog/ats4/blob/master/conf/rules/JA1ZGP/uec.rb) |
+|[多摩川コンテスト](http://apollo.c.ooco.jp) | [https://github.com/nextzlog/ats4/blob/master/conf/rules/JI1YEG/tama.rb](https://github.com/nextzlog/ats4/blob/master/conf/rules/JI1YEG/tama.rb)|
 
-我が無線部では、全てのコンテストがATS-4型を活用する将来を構想しており、ATS-4型の移植は、無償で受け付ける。
+規約は、Rubyで記述される。以下に、簡単な例を示す。得点計算が特殊な場合は、**クラス**を拡張する形で、対応できる。
+Ruby以外では、[ALLJA1コンテスト](https://ja1zlo.u-tokyo.org/allja1)など、交信記録の解析方法や得点計算が複雑な場合に、LISPを併用する例がある。
+
+```ruby
+RULE = PlainProgram.new('QSO PARTY')
+
+RULE.add(PlainSection.new('14MHz CW', [Band.new(14000)], [Mode.new('CW')]))
+RULE.add(PlainSection.new('21MHz CW', [Band.new(21000)], [Mode.new('CW')]))
+RULE.add(PlainSection.new('28MHz CW', [Band.new(28000)], [Mode.new('CW')]))
+RULE.add(PlainSection.new('50MHz CW', [Band.new(50000)], [Mode.new('CW')]))
+
+RULE.add(PlainSection.new('14MHz PH', [Band.new(14000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE.add(PlainSection.new('21MHz PH', [Band.new(21000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE.add(PlainSection.new('28MHz PH', [Band.new(28000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE.add(PlainSection.new('50MHz PH', [Band.new(50000)], [Mode.new('SSB'), Mode.new('FM')]))
+```
 
 ## 2 従来方式
 
@@ -106,7 +103,7 @@ mon day time  callsign      sent         rcvd      multi   MHz mode pts memo
 <LOGSHEET TYPE=JA1ZLO-ORIGINAL-FORMAT>
 ```
 
-曖昧な類似性を標準規格と嘯く有様である。属性には複数の意味が存在し、以下の2行は、同じ意味や異なる意味になる。
+属性には、複数の解釈の余地があり、以下の2行は、規約次第で、同じ意味になる場合も、異なる意味になる場合もある。
 
 ```bash
 2015-06-07 09:01   JA1YWX   100105
@@ -238,67 +235,64 @@ Fig. 3.3 submission certificate.
 
 参加者は、交信記録が適切に処理された旨を自分で確認する必要がある。必要なら、締切までに修正して再提出できる。
 
-## 4 推奨書式
+## 4 起動方法
 
-qxmlは、ATS-4型の内部で使われる書式である。[ADIF](https://adif.org)と対照的に、最小限を志向し、名前空間による拡張性を有する。
+WindowsやUNIX系OSで[Docker](https://www.docker.com/)を導入し、bashで以下のコマンドを実行すると、ATS-4型が[localhost](http://localhost)で起動する。
 
-```java
-<list xmlns:qxsl="qxsl.org">
-  <item qxsl:time="2017-06-04T00:00:00Z" qxsl:call="QP3GES" qxsl:band="14000" qxsl:mode="CW">
-    <rcvd qxsl:code="100105" qxsl:rstq="599"/>
-    <sent qxsl:code="100110" qxsl:rstq="599"/>
-  </item>
-</list>
+```sh
+cat << EOS > docker-compose.yaml
+version: '3'
+services:
+  ATS4:
+    image: ghcr.io/nextzlog/ats4:master
+    ports:
+    - 9000:9000
+    volumes:
+    - ./ats/data:/ats/data
+    - ./ats/logs:/ats/logs
+    - ./ats.conf:/ats/conf/ats.conf
+    - ./rules.rb:/ats/conf/rules.rb
+    command: /ats/bin/ats4
+  www:
+    image: nginx:latest
+    ports:
+    - 80:80
+    volumes:
+    - ./proxy.conf:/etc/nginx/conf.d/default.conf
+EOS
+
+echo -n 'enter mail hostname: '; read host
+echo -n 'enter mail username: '; read user
+echo -n 'enter mail password: '; read pass
+echo -n 'enter server domain: '; read name
+
+cat << EOS > ats.conf
+play.mailer.host=$host
+play.mailer.port=465
+play.mailer.ssl=true
+play.mailer.user="$user"
+play.mailer.password="$pass"
+play.mailer.mock=false
+ats4.rules=/rules.rb
+EOS
+
+cat << EOS > rules.rb
+require 'rules/sample/plain'
+RULE
+EOS
+
+cat << EOS > proxy.conf
+server {
+  server_name $name;
+  location / {
+    proxy_pass http://ATS4:9000;
+    location ~ /admin {
+      allow 127.0.0.1;
+      deny all;
+    }
+  }
+}
+EOS
+
+docker compose up -d
 ```
-
-具体的な処理はドメイン特化言語で記述される。標準的には、Table 4.1に示す名前空間qxsl.orgの属性が利用される。
-
-Table 4.1 qxml attributes.
-
-|周波数帯 | `{qxsl.org}band` | キロヘルツ単位の周波数 | 運用者名 | `{qxsl.org}name` | 印字可能な任意の文字列 |
-|---|---|---|---|---|---|
-|呼出符号 | `{qxsl.org}call` | 印字可能な任意の文字列 | 特記事項 | `{qxsl.org}note` | 印字可能な任意の文字列 |
-|運用場所 | `{qxsl.org}city` | 都道府県及び市郡区番号 | 受信状況 | `{qxsl.org}rstq` | 了解度と信号強度と音調 |
-|識別番号 | `{qxsl.org}code` | 印字可能な任意の文字列 | 交信時刻 | `{qxsl.org}time` | 秒単位までの精度の時刻 |
-|変調方式 | `{qxsl.org}mode` | 印字可能な任意の文字列 | 送信電力 | `{qxsl.org}watt` | 印字可能な任意の文字列|
-
-他には、zLogのバイナリデータが推奨される。冒頭の256バイトは無視され、以後は256バイト毎に1件の交信を表す。
-その仕様をTable 4.2に示す。交信日時の整数部は、1899年12月30日からの日数で、小数部はその日の経過時間を表す。
-
-Table 4.2 zLog binary file.
-
-(1) attributes.
-
-|位置 | 長さ | 種別 | 属性 | 書式    | 備考                       |
-|---|---|---|---|---|---|
-|0    | 8    | item | time | IEEE754 | リトルエンディアン         |
-|8    | 13   | item | call | ASCII   | 冒頭は文字列の長さ         |
-|21   | 31   | sent | code | ASCII   | 冒頭は文字列の長さ         |
-|52   | 31   | rcvd | code | ASCII   | 冒頭は文字列の長さ         |
-|84   | 2    | sent | rstq | 整数値  | リトルエンディアン         |
-|86   | 2    | rcvd | rstq | 整数値  | リトルエンディアン         |
-|92   | 1    | item | mode | 列挙型  | CW,SSB,FM,AM,RTTY |
-|93   | 1    | item | band | 列挙型  | 右表参照                   |
-|94   | 1    | sent | watt | 列挙型  | P,L,M,H           |
-|160  | 15   | item | name | MS932   | 冒頭は文字列の長さ         |
-|175  | 65   | item | note | MS932   | 冒頭は文字列の長さ|
-
-
-
-(2) frequencies.
-
-|値  | 周波数 | 値 | 周波数 |
-|---|---|---|---|
-| 0 | 1.9 MHz | 11 | 430 MHz |
-| 1 | 3.5 MHz | 12 | 1.2 GHz |
-| 2 | 7 MHz   | 13 | 2.4 GHz |
-| 3 | 10 MHz  | 14 | 5.6 GHz |
-| 4 | 14 MHz  | 15 | 10 GHz  |
-| 5 | 18 MHz  |    |           |
-| 6 | 21 MHz  |    |           |
-| 7 | 24 MHz  |    |           |
-| 8 | 28 MHz  |    |           |
-| 9 | 50 MHz  |    |           |
-| 10 | 144 MHz |    ||
-
-これ以外にも、ATS-4型では、所定のインターフェースを実装したプラグインを通じて、様々な交信記録に対応できる。
