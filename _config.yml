@@ -27,8 +27,8 @@ links:
 - name: Twitter
   href: https://twitter.com/nextzlog
   icon: fab fa-twitter
-- name: 無線部開発班
-  href: https://nextzlog.dev
+- name: 東大無線部
+  href: https://ja1zlo.u-tokyo.org
 jumps:
 - name: autodyne
   href: https://github.com/autodyne
