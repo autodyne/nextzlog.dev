@@ -1,14 +1,15 @@
 ---
 title: Haskellで自作する言語処理系
-subtitle: RustでGCを添えて
+subtitle: LLVMにGCを添えて
 ---
 
 ## 予定
 
 1. Haskell入門
 2. Parsecでコンパイラを作る
-3. [llvm-hs-pure](https://hackage.haskell.org/package/llvm-hs-pure)でLLVM-IRを生成
-4. バイナリを生成
+3. HaskellでGCを作る
+4. [llvm-hs-pure](https://hackage.haskell.org/package/llvm-hs-pure)でLLVM-IRを生成
+5. バイナリを生成
 
 ## Haskell
 
