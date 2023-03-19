@@ -1,4 +1,6 @@
-HaskellとRustで自作する言語処理系
+---
+title: Haskellで自作する言語処理系
+subtitle: Rustを添えて
 ---
 
 ## 予定
@@ -9,7 +11,7 @@ HaskellとRustで自作する言語処理系
 4. [llvm-hs-pure](https://hackage.haskell.org/package/llvm-hs-pure)でLLVM-IRを生成
 5. バイナリを生成
 
-## 雑なHaskell超入門
+## Haskell超入門
 
 頭を空っぽにして、ちょっと変わった源吾としてのHaskellの基本仕様を解説する。
 
