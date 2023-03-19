@@ -1,19 +1,16 @@
 ---
 title: Haskellで自作する言語処理系
-subtitle: Rustを添えて
+subtitle: RustでGCを添えて
 ---
 
 ## 予定
 
-1. Haskell超入門
+1. Haskell入門
 2. Parsecでコンパイラを作る
-3. RustでGCを作る
-4. [llvm-hs-pure](https://hackage.haskell.org/package/llvm-hs-pure)でLLVM-IRを生成
-5. バイナリを生成
+3. [llvm-hs-pure](https://hackage.haskell.org/package/llvm-hs-pure)でLLVM-IRを生成
+4. バイナリを生成
 
-## Haskell超入門
-
-頭を空っぽにして、ちょっと変わった源吾としてのHaskellの基本仕様を解説する。
+## Haskell
 
 ### Hello, world!
 
