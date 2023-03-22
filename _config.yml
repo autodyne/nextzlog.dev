@@ -7,6 +7,10 @@ desc: アマチュア無線のコンテスト運営システムから, 並列計
 items:
 - name: ATS-4
   href: /ats4.html
+- name: ZyLO
+  href: /zylo.html
+- name: コンテスト
+  href: /real.html
 - name: 自作言語
   href: /fava.html
 - name: 機械学習
@@ -15,14 +19,8 @@ items:
   href: /dusk.html
 - name: 並列言語
   href: /chpl.html
-- name: ZyLO
-  href: /zylo.html
-- name: コンテスト
-  href: /real.html
 - name: Haskell
   href: /hell.html
-- name: 開発項目
-  href: /todo.html
 links:
 - name: zLog
   href: https://zlog.org
