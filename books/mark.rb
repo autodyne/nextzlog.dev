@@ -40,11 +40,7 @@ File.open(File.join(name, sprintf('%s.md', name)), mode='w') do |file|
 	file.puts("pdf: #{name}.pdf")
 	file.puts("web: #{HOST}/#{File.basename(path)}")
 	file.puts('---')
-	file.puts('{% for file in site.static_files %}')
-	file.puts("{% if file.basename contains '#{name}.' and file.extname == '.svg' %}")
-	file.puts('<img src="{{file.path}}" class="img-thumbnail img-fluid" width="100%">')
-	file.puts('{% endif %}')
-	file.puts('{% endfor %}')
+	subs.each{|body| file.puts("## #{body}")}
 end
 
 exit if subs.empty?

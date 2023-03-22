@@ -40,7 +40,7 @@
 \RequirePackage{fancyhdr}
 \RequirePackage{hyperref}
 
-\NewDocumentCommand\book{m m m O{無線部} O{開発班} O{JG1VPP} O{book.nextzlog.dev} m}{
+\NewDocumentCommand\book{m m m O{無線部} O{開発班} O{JG1VPP} O{nextzlog.dev} m}{
 \gdef\@maintitle{#1}
 \gdef\@subtitle{#2}
 \gdef\@volume{No.~#3}

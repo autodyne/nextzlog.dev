@@ -2,6 +2,7 @@
 title: ZyLO
 subtitle: Golangで広げるコンテストロガーの可能性
 pdf: zylo.pdf
+layout: default
 ---
 
 {% for file in site.static_files %}

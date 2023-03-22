@@ -1,12 +1,16 @@
 remote_theme: nextzlog/pafe
-url: https://book.nextzlog.dev
-name: 無線部の記事
+url: https://nextzlog.dev
+name: 無線部開発班
 icon: /assets/head.png
 lead: automatic tabulation system for hamradio contests, parallel computing framework, programming language processors, machine learning, etc.
 desc: アマチュア無線のコンテスト運営システムから, 並列計算フレームワーク, プログラミング言語処理系, 機械学習まで, ソフトウェア科学の記事を公開.
 items:
 - name: ATS-4
   href: /ats4.html
+- name: ZyLO
+  href: /zylo.html
+- name: コンテスト
+  href: /real.html
 - name: 自作言語
   href: /fava.html
 - name: 機械学習
@@ -15,14 +19,16 @@ items:
   href: /dusk.html
 - name: 並列言語
   href: /chpl.html
-- name: ZyLO
-  href: /zylo.html
+- name: Haskell
+  href: /hell.html
 links:
+- name: zLog
+  href: https://zlog.org
 - name: Twitter
   href: https://twitter.com/nextzlog
   icon: fab fa-twitter
-- name: 無線部開発班
-  href: https://nextzlog.dev
+- name: 東大無線部
+  href: https://ja1zlo.u-tokyo.org
 jumps:
 - name: autodyne
   href: https://github.com/autodyne
