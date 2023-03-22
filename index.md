@@ -1,6 +1,7 @@
 ---
 title: 無線部開発班
 subtitle: Journal of Hamradio Informatics
+layout: issues
 ---
 
 <div class='ratio ratio-16x9'>

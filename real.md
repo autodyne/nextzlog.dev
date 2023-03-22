@@ -2,6 +2,7 @@
 title: リアルタイムコンテスト
 subtitle: zLogで参加する
 pdf: real.pdf
+layout: default
 ---
 
 {% for file in site.static_files %}
