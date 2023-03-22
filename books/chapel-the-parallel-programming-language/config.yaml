@@ -7,6 +7,7 @@ topics:
 - 高性能計算
 - PGAS
 - HPC
+youtube:
 summary: 型推論とテンプレートと区分化大域アドレス空間を特徴とした並列プログラミング言語の解説記事。
 chapters:
 - '1'

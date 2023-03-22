@@ -2,6 +2,7 @@
 title: コンテスト運営を支援する自動集計システム
 subtitle: Amateur-Radio Contest Administration System
 topics: アマチュア無線,コンテスト,自動集計
+youtube: https://www.youtube.com/embed/Yb6QY7BI4kA?vq=hd1080
 pdf: ats4.pdf
 web: https://zenn.dev/nextzlog/books/amateur-radio-contest-administration-system
 ---
@@ -296,8 +297,3 @@ EOS
 
 docker compose up -d
 ```
-
-
-<div class='ratio ratio-16x9'>
-<iframe src='https://www.youtube.com/embed/Yb6QY7BI4kA?vq=hd1080' title='YouTube video player' allowfullscreen></iframe>
-</div>
