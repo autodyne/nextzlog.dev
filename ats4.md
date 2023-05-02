@@ -50,7 +50,7 @@ ATS-4型の移植や設置の相談は、[nextzlog/todo](https://github.com/next
 Ruby以外では、[ALLJA1コンテスト](https://ja1zlo.u-tokyo.org/allja1)など、交信記録の解析方法や得点計算が複雑な場合に、LISPを併用する例がある。
 
 ```ruby
-RULE = PlainProgram.new('QSO PARTY')
+RULE = PlainProgram.new('CQJA', 'JA1RL', 'cq@jarl.com', 'jarl.com', 4, 1, DayOfWeek::SUNDAY)
 
 RULE.add(PlainSection.new('14MHz CW', [Band.new(14000)], [Mode.new('CW')]))
 RULE.add(PlainSection.new('21MHz CW', [Band.new(21000)], [Mode.new('CW')]))
