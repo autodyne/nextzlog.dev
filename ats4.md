@@ -38,29 +38,30 @@ web: https://zenn.dev/nextzlog/books/amateur-radio-contest-administration-system
 
 ### 1.2 特色
 
-ATS-4型の特色は、任意のコンテストを**ドメイン特化言語**で定義でき、規約の変更や移植に柔軟に対応可能な点にある。
-ATS-4型の移植や設置の相談は、[nextzlog/todo](https://github.com/nextzlog/todo/issues)で受け付ける。以下に、既に対応を果たした規約と、その実装を示す。
-
-|-|-|
-|---|---|
-|[電通大コンテスト](https://www.ja1zgp.com) | [https://github.com/nextzlog/ats4/blob/master/conf/rules/JA1ZGP/uec.rb](https://github.com/nextzlog/ats4/blob/master/conf/rules/JA1ZGP/uec.rb) |
-|[多摩川コンテスト](http://apollo.c.ooco.jp) | [https://github.com/nextzlog/ats4/blob/master/conf/rules/JI1YEG/tama.rb](https://github.com/nextzlog/ats4/blob/master/conf/rules/JI1YEG/tama.rb)|
-
-規約は、Rubyで記述される。以下に、簡単な例を示す。得点計算が特殊な場合は、**クラス**を拡張する形で、対応できる。
-Ruby以外では、[ALLJA1コンテスト](https://ja1zlo.u-tokyo.org/allja1)など、交信記録の解析方法や得点計算が複雑な場合に、LISPを併用する例がある。
+ATS-4型では、参加可能な部門や得点計算を汎用的な**スクリプト言語**で記述する。以下にRubyによる定義の例を示す。
 
 ```ruby
-RULE = PlainProgram.new('CQJA', 'JA1RL', 'cq@jarl.com', 'jarl.com', 4, 1, DayOfWeek::SUNDAY)
+require 'rules/ats'
 
-RULE.add(PlainSection.new('14MHz CW', [Band.new(14000)], [Mode.new('CW')]))
-RULE.add(PlainSection.new('21MHz CW', [Band.new(21000)], [Mode.new('CW')]))
-RULE.add(PlainSection.new('28MHz CW', [Band.new(28000)], [Mode.new('CW')]))
-RULE.add(PlainSection.new('50MHz CW', [Band.new(50000)], [Mode.new('CW')]))
+RULE = ProgramATS.new('CQJA', 'JA1RL', 'cq@jarl.com', 'jarl.com', 4, 1, DayOfWeek::SUNDAY)
+RULE.add(SectionATS.new('14MHz PH', [Band.new(14000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE.add(SectionATS.new('21MHz PH', [Band.new(21000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE.add(SectionATS.new('28MHz PH', [Band.new(28000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE.add(SectionATS.new('50MHz PH', [Band.new(50000)], [Mode.new('SSB'), Mode.new('FM')]))
 
-RULE.add(PlainSection.new('14MHz PH', [Band.new(14000)], [Mode.new('SSB'), Mode.new('FM')]))
-RULE.add(PlainSection.new('21MHz PH', [Band.new(21000)], [Mode.new('SSB'), Mode.new('FM')]))
-RULE.add(PlainSection.new('28MHz PH', [Band.new(28000)], [Mode.new('SSB'), Mode.new('FM')]))
-RULE.add(PlainSection.new('50MHz PH', [Band.new(50000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE
+```
+
+複雑な規約の場合は、LISPを使う例もある。なお、規約の移植の依頼や、ATS-4型の環境構築の質問は、[Issues](https://github.com/nextzlog/todo/issues)で承る。
+
+```ruby
+(setq RT (contest "REAL-TIME CONTEST"))
+(SinOp cities (SinOp? band? time? area? MORSE?))
+(SinOp cities (SinOp? band? time? area? PHONE?))
+(SinOp cities (SinOp? band? time? area? CW/PH?))
+(MulOp cities (MulOp? band? time? area? MORSE?))
+(MulOp cities (MulOp? band? time? area? PHONE?))
+(MulOp cities (MulOp? band? time? area? CW/PH?))
 ```
 
 ## 2 従来方式
