@@ -5,12 +5,10 @@
 
 \NewDocumentCommand\ja{}{\href{https://ja1zlo.u-tokyo.org/allja1}{ALLJA1コンテスト}}
 \NewDocumentCommand\rt{}{\href{https://ja1zlo.u-tokyo.org/rt/rt1.html}{リアルタイムコンテスト}}
-\NewDocumentCommand\ue{}{\href{https://www.ja1zgp.com}{電通大コンテスト}}
-\NewDocumentCommand\ta{}{\href{http://apollo.c.ooco.jp}{多摩川コンテスト}}
 \NewDocumentCommand\adi{}{\href{https://adif.org}{ADIF}}
 \NewDocumentCommand\cbr{}{\href{https://wwrof.org/cabrillo/}{Cabrillo}}
 \NewDocumentCommand\jarl{}{\href{https://jarl.org}{JARL}}
-\NewDocumentCommand\todo{}{\href{https://github.com/nextzlog/todo/issues}{\texttt{nextzlog/todo}}}
+\NewDocumentCommand\todo{}{\href{https://github.com/nextzlog/todo/issues}{Issues}}
 \NewDocumentCommand\dock{}{\href{https://www.docker.com/}{Docker}}
 \NewDocumentCommand\host{}{\href{http://localhost}{\texttt{localhost}}}
 
@@ -60,32 +58,30 @@
 
 \section{特色}
 
-\ats{4}の特色は、任意のコンテストを\textbf{ドメイン特化言語}で定義でき、規約の変更や移植に柔軟に対応可能な点にある。
-\ats{4}の移植や設置の相談は、\todo{}で受け付ける。以下に、既に対応を果たした規約と、その実装を示す。
-
-\begin{table}[H]
-\raggedright
-\begin{tabular}{Bl}
-\ue{} & \url{https://github.com/nextzlog/ats4/blob/master/conf/rules/JA1ZGP/uec.rb} \\
-\ta{} & \url{https://github.com/nextzlog/ats4/blob/master/conf/rules/JI1YEG/tama.rb} \\
-\end{tabular}
-\end{table}
-
-規約は、Rubyで記述される。以下に、簡単な例を示す。得点計算が特殊な場合は、\textbf{クラス}を拡張する形で、対応できる。
-Ruby以外では、\ja{}など、交信記録の解析方法や得点計算が複雑な場合に、LISPを併用する例がある。
+\ats{4}では、参加可能な部門や得点計算を汎用的な\textbf{スクリプト言語}で記述する。以下にRubyによる定義の例を示す。
 
 \begin{Verbatim}{Ruby}
-RULE = PlainProgram.new('CQJA', 'JA1RL', 'cq@jarl.com', 'jarl.com', 4, 1, DayOfWeek::SUNDAY)
+require 'rules/ats'
 
-RULE.add(PlainSection.new('14MHz CW', [Band.new(14000)], [Mode.new('CW')]))
-RULE.add(PlainSection.new('21MHz CW', [Band.new(21000)], [Mode.new('CW')]))
-RULE.add(PlainSection.new('28MHz CW', [Band.new(28000)], [Mode.new('CW')]))
-RULE.add(PlainSection.new('50MHz CW', [Band.new(50000)], [Mode.new('CW')]))
+RULE = ProgramATS.new('CQJA', 'JA1RL', 'cq@jarl.com', 'jarl.com', 4, 1, DayOfWeek::SUNDAY)
+RULE.add(SectionATS.new('14MHz PH', [Band.new(14000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE.add(SectionATS.new('21MHz PH', [Band.new(21000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE.add(SectionATS.new('28MHz PH', [Band.new(28000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE.add(SectionATS.new('50MHz PH', [Band.new(50000)], [Mode.new('SSB'), Mode.new('FM')]))
 
-RULE.add(PlainSection.new('14MHz PH', [Band.new(14000)], [Mode.new('SSB'), Mode.new('FM')]))
-RULE.add(PlainSection.new('21MHz PH', [Band.new(21000)], [Mode.new('SSB'), Mode.new('FM')]))
-RULE.add(PlainSection.new('28MHz PH', [Band.new(28000)], [Mode.new('SSB'), Mode.new('FM')]))
-RULE.add(PlainSection.new('50MHz PH', [Band.new(50000)], [Mode.new('SSB'), Mode.new('FM')]))
+RULE
+\end{Verbatim}
+
+複雑な規約の場合は、LISPを使う例もある。なお、規約の移植の依頼や、\ats{4}の環境構築の質問は、\todo{}で承る。
+
+\begin{Verbatim}{Ruby}
+(setq RT (contest "REAL-TIME CONTEST"))
+(SinOp cities (SinOp? band? time? area? MORSE?))
+(SinOp cities (SinOp? band? time? area? PHONE?))
+(SinOp cities (SinOp? band? time? area? CW/PH?))
+(MulOp cities (MulOp? band? time? area? MORSE?))
+(MulOp cities (MulOp? band? time? area? PHONE?))
+(MulOp cities (MulOp? band? time? area? CW/PH?))
 \end{Verbatim}
 
 \chapter{従来方式\label{chap:mail}}
