@@ -279,7 +279,7 @@ ats4.rules=/rules.rb
 EOS
 
 cat << EOS > rules.rb
-require 'rules/sample/plain'
+require 'rules/ats'
 RULE
 EOS
 
