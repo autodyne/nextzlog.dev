@@ -19,8 +19,6 @@ items:
   href: /dusk.html
 - name: 並列言語
   href: /chpl.html
-- name: Haskell
-  href: /hell.html
 links:
 - name: zLog
   href: https://zlog.org
