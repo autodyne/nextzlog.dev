@@ -372,17 +372,17 @@ class Softmax extends Act {
 val model = new Offset(3, new Softmax, ()=>new PlainSGD, new Output(4, _-_))
 ```
 
-Fig. 2.3は、国際信号旗の*Z*旗を学習する例である。問題が簡単なので、単層の方が多層よりも正確な*Z*旗を学習できる。
+Fig. 2.3は、チェコ共和国の国旗を学習する例である。意匠が直線的なので、単層の方が多層より正確な旗を学習できる。
 
-![images/slp.zflag.png](/images/slp.zflag.png)
+![images/slp.czech.png](/images/slp.czech.png)
 
 (1) 2-layer perceptron
 
-![images/mlp.zflag.png](/images/mlp.zflag.png)
+![images/mlp.czech.png](/images/mlp.czech.png)
 
 (2) 3-layer perceptron
 
-Fig. 2.3 maritime signal flag *zulu* learned by a perceptron.
+Fig. 2.3 Czech flag learned by a perceptron.
 
 層を増やすと、表現能力は高まるが、第2.4節でも述べる通り、学習が停滞しやすく、却って精度が低下する場合がある。
 
