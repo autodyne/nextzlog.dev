@@ -429,16 +429,16 @@ class Softmax extends Act {
 勾配$\nabla f(\bm{z})$の計算を誤魔化したので、中間層で使うと、逆伝播が妨害される。その点に目を瞑れば、簡単に実装できた。
 
 \begin{Verbatim}{Scala}
-val model = new Offset(3, new Softmax, ()=>new PlainSGD, new Output(4, _-_))
+val model = new Offset(3, new Softmax, ()=>new PlainSGD, new Output(3, _-_))
 \end{Verbatim}
 
-\figref{mcp.zflag}は、国際信号旗の\textit{Z}旗を学習する例である。問題が簡単なので、単層の方が多層よりも正確な\textit{Z}旗を学習できる。
+\figref{mcp.czech}は、チェコ共和国の国旗を学習する例である。意匠が直線的なので、単層の方が多層より正確な旗を学習できる。
 
 \begin{figure}[h]
 \centering
-\subfloat[2-layer perceptron]{\includegraphics[width=.5\linewidth]{images/slp.zflag.eps}}
-\subfloat[3-layer perceptron]{\includegraphics[width=.5\linewidth]{images/mlp.zflag.eps}}
-\caption{maritime signal flag \textit{zulu} learned by a perceptron.\label{fig:mcp.zflag}}
+\subfloat[2-layer perceptron]{\includegraphics[width=.5\linewidth]{images/slp.czech.eps}}
+\subfloat[3-layer perceptron]{\includegraphics[width=.5\linewidth]{images/mlp.czech.eps}}
+\caption{Czech flag learned by a perceptron.\label{fig:mcp.czech}}
 \end{figure}
 
 層を増やすと、表現能力は高まるが、\sectref{nn.sgd}でも述べる通り、学習が停滞しやすく、却って精度が低下する場合がある。
