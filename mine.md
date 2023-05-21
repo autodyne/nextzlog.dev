@@ -369,7 +369,7 @@ class Softmax extends Act {
 勾配 $\nabla f(\boldsymbol{z})$ の計算を誤魔化したので、中間層で使うと、逆伝播が妨害される。その点に目を瞑れば、簡単に実装できた。
 
 ```scala
-val model = new Offset(3, new Softmax, ()=>new PlainSGD, new Output(4, _-_))
+val model = new Offset(3, new Softmax, ()=>new PlainSGD, new Output(3, _-_))
 ```
 
 Fig. 2.3は、チェコ共和国の国旗を学習する例である。意匠が直線的なので、単層の方が多層より正確な旗を学習できる。
