@@ -1392,7 +1392,7 @@ $$\mathcal{L}\left(\theta\right) =
 P\left(\boldsymbol{x}\,\middle|\,\theta\right) =
 \displaystyle\prod_{n=1}^N \displaystyle\sum_{k=1}^K w_k \mathcal{N}\left(\boldsymbol{x}_n\,\middle|\,\boldsymbol{\mu}_k,S_k\right). \qquad(6.9)$$
 
-微分計算の都合により、尤度を対数化して、対数尤度を最小化する母数を計算しよう。重心 $\boldsymbol{\mu}_k$ による偏微分の例を示す。
+微分計算の都合により、尤度を対数化して、対数尤度を最大化する母数を計算しよう。重心 $\boldsymbol{\mu}_k$ による偏微分の例を示す。
 
 $$\displaystyle\frac{\partial }{\partial \boldsymbol{\mu}_k}\log\mathcal{L}\left(\theta\right) =
 \displaystyle\frac{\partial }{\partial \boldsymbol{\mu}_k}\displaystyle\sum_{n=1}^N \log\displaystyle\sum_{k=1}^K w_k \mathcal{N}\left(\boldsymbol{x}_n\,\middle|\,\boldsymbol{\mu}_k,S_k\right) =
