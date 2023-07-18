@@ -1626,7 +1626,7 @@ class Kmeans(x: Seq[Seq[Double]], k: Int, epochs: Int = 100) {
 \prod_{n=1}^N \sum_{k=1}^K w_k \Nd{\bm{x}_n}{\bm{\mu}_k,S_k}.
 \end{equation}
 %
-微分計算の都合により、尤度を対数化して、対数尤度を最小化する母数を計算しよう。重心$\bm{\mu}_k$による偏微分の例を示す。
+微分計算の都合により、尤度を対数化して、対数尤度を最大化する母数を計算しよう。重心$\bm{\mu}_k$による偏微分の例を示す。
 %
 \begin{equation}
 \label{eq:em:L:m}
