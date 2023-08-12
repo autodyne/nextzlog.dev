@@ -63,16 +63,16 @@ $ gradle build -p fava
 \fava{}は対話的に実行できる。\fava{}の内部で実行される命令列を表示する機能も用意した。内部的な動作の理解に役立つ。
 
 \begin{Verbatim}{sample}
-$ java -jar fava/build/libs/fava.jar
-which language do you use?
-[0]: fava
-[1]: lisp
-[2]: math
-select: 0
+$ java -jar build/libs/fava.jar --fava
 fava$ "HELLO, WORLD!"
 HELLO, WORLD!
 fava$ compile(1 + 2)
-Push(1) Push(2) Add
+Push(1) Push(2) IAdd
+fava$ exit
+$ java -jar build/libs/fava.jar --lisp
+lisp$ (+ 1 2 3)
+6
+lisp$ (exit)
 \end{Verbatim}
 
 \chapter{計算モデルを作る\label{chap:automata}}
@@ -255,20 +255,20 @@ class UTM[V](data1: Seq[V], data2: Seq[V], b1: V, b2: V, mL: V, mR: V, var s1: V
 	val tape1 = data1.zipWithIndex.map(_.swap).to(collection.mutable.SortedMap)
 	val tape2 = data2.zipWithIndex.map(_.swap).to(collection.mutable.SortedMap)
 	var hd1, hd2 = 0
-	def r1 = tape1.getOrElse(hd1, b1) 
+	def r1 = tape1.getOrElse(hd1, b1)
 	def r2 = tape2.getOrElse(hd2, b2)
 	def apply(sop: V) = Iterator.continually(s2 match {
-		case 0 if r2 == s1 => (s1 = s1, s2 = 1, tape1(hd1) = r1, hd1 += 0, hd2 += 1) 
-		case 0 if r2 != s1 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 5) 
-		case 1 if r2 == r1 => (s1 = s1, s2 = 2, tape1(hd1) = r1, hd1 += 0, hd2 += 1) 
-		case 1 if r2 != r1 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 4) 
-		case 2 if r2 != b2 => (s1 = r2, s2 = 3, tape1(hd1) = r1, hd1 += 0, hd2 += 1) 
-		case 3 if r2 != b2 => (s1 = s1, s2 = 4, tape1(hd1) = r2, hd1 += 0, hd2 += 1) 
-		case 4 if r2 == b1 => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 0, hd2 += 1) 
-		case 4 if r2 == mL => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 -= 1, hd2 += 1) 
-		case 4 if r2 == mR => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 1, hd2 += 1) 
-		case 5 if r2 == b2 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 1) 
-		case 5 if r2 != b2 => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 0, hd2 -= 1) 
+		case 0 if r2 == s1 => (s1 = s1, s2 = 1, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 0 if r2 != s1 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 5)
+		case 1 if r2 == r1 => (s1 = s1, s2 = 2, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 1 if r2 != r1 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 4)
+		case 2 if r2 != b2 => (s1 = r2, s2 = 3, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 3 if r2 != b2 => (s1 = s1, s2 = 4, tape1(hd1) = r2, hd1 += 0, hd2 += 1)
+		case 4 if r2 == b1 => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 4 if r2 == mL => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 -= 1, hd2 += 1)
+		case 4 if r2 == mR => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 1, hd2 += 1)
+		case 5 if r2 == b2 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 5 if r2 != b2 => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 0, hd2 -= 1)
 	}).takeWhile(t => s1 != sop || s2 != 0).map(t => tape1.values.mkString)
 }
 \end{Verbatim}
@@ -849,7 +849,7 @@ class Fold[T](p: => PEG[T], q: => PEG[(T, T) => T]) extends PEG({
 最後に実装する\texttt{Sep}型は、\texttt{Rep}型の特殊な場合で、区切り文字で区切られた記号の反復を表す。区切り文字は廃棄される。
 
 \begin{Verbatim}{Scala}
-class Sep[T](p: => PEG[T], q: => PEG[_]) extends Fold[Seq[T]](p^(Seq(_)), q^(_ => _ ++ _))
+class Sep[T](p: => PEG[T], q: => PEG[_]) extends Fold[Seq[T]](p.? ^ (_.toSeq), q^(_ => _ ++ _))
 \end{Verbatim}
 
 最終的な構文解析器を、以下の\texttt{PEGs}型を継承して実装すると、文字列や正規表現は、暗黙的に構文解析器に変換される。
@@ -880,7 +880,7 @@ LISPの式をS式と呼ぶ。変数の名前や数値を表す\textbf{アトム}
 \begin{Verbatim}{Scala}
 object LispPEGs extends PEGs {
 	def sexp: PEG[S] = list / quot / real / name
-	def list = "(" ~> (sexp.* ^ List) <~ ")" 
+	def list = "(" ~> (sexp.* ^ List) <~ ")"
 	def real = "[0-9]+".r ^ (real => Real(BigDecimal(real)))
 	def name = """[^'`,@\(\)\s]+""".r ^ (name => Name(name))
 	def quot = "'" ~> sexp ^ (Seq(Name("quote"), _)) ^ List
@@ -930,15 +930,15 @@ case class Env(out: Option[Env], params: List, args: Seq[S]) {
 		else if(out.nonEmpty) out.get(name)
 		else sys.error(s"$name undeclared")
 	}
-	def apply(args: Seq[S]): Seq[S] = args.map(_.apply(this)) 
+	def apply(args: Seq[S]): Seq[S] = args.map(_.apply(this))
 }
 \end{Verbatim}
 
 最後に、お好みで\texttt{Form}型を継承し、組込み関数や構文を充実させよう。関数とマクロを定義する構文の例を以下に示す。
 
 \begin{Verbatim}{Scala}
-object LambdaForm extends Form("lambda", (a, s) => new Lambda(a.head.asInstanceOf[List], a(1), s)) 
-object SyntaxForm extends Form("syntax", (a, s) => new Syntax(a.head.asInstanceOf[List], a(1), s)) 
+object LambdaForm extends Form("lambda", (a, s) => new Lambda(a.head.asInstanceOf[List], a(1), s))
+object SyntaxForm extends Form("syntax", (a, s) => new Syntax(a.head.asInstanceOf[List], a(1), s))
 \end{Verbatim}
 
 以上で、簡素ながら優れた拡張性と実用性を備えるLISPが完成した。階乗を\texttt{defun}マクロで定義する例を以下に示す。
@@ -1032,16 +1032,16 @@ Push(true) Skin(3) Push(12) Skip(2) Push(34)
 関数も同様の仕組みで実現できる。関数は、\texttt{Def}命令に始まり、\texttt{Ret}命令に終わる命令列に翻訳される。以下に例を示す。
 
 \begin{Verbatim}{sample}
-fava$ compile((x,y)=>x+y)
-Def(5,2) Load(0,0) Load(0,1) Add Ret
+fava$ compile((x,y)=>0+x+y)
+Def(7) Push(0) Load(0,0) IAdd Load(0,1) IAdd Ret
 \end{Verbatim}
 
-\texttt{Def}命令は、指定された個数の引数を持つ関数を生成し、スタックに積む。また、関数の内容を読み飛ばす機能も備える。
+\texttt{Def}命令は、それに続く命令列を実行する関数をスタックに積む。また、その命令列を読み飛ばし、意図せぬ実行を防ぐ。
 \texttt{Ret}命令は、関数の引数を格納した\textbf{環境}を廃棄して、関数を呼び出した位置に復帰する。関数適用の命令列も以下に示す。
 
 \begin{Verbatim}{sample}
 fava$ compile(((f)=>f())(()=>3))
-Def(4,1) Load(0,0) Call(0) Ret Def(3,0) Push(3) Ret Call(1)
+Def(4) Load(0,0) Call(0) Ret Def(3) Push(3) Ret Call(1)
 \end{Verbatim}
 
 \texttt{Call}命令は、引数と関数をスタックから取り出す。復帰位置を記録して、環境を構築してから、関数の冒頭に移動する。
@@ -1072,7 +1072,7 @@ fava$ ((x,y)=>x()*x()+y())(()=>3+3,()=>3*3)
 
 \begin{Verbatim}{sample}
 fava$ compile(((x)=>x)(5))
-Def(11,1) Load(0,0) Nil Skin(6) Ref Call(0) Load(0,0) Fix Set Get Ret Def(3,0) Push(5) Ret Arg Call(1)
+Def(11) Load(0,0) Nil Skin(6) Ref Call(0) Load(0,0) Fix Set Get Ret Def(3) Push(5) Ret Arg Call(1)
 \end{Verbatim}
 
 \section{命令の基本設計}
@@ -1089,11 +1089,11 @@ class Code(op: FaVM => Unit) {
 
 \section{関数の基本設計\label{sect:func}}
 
-次に、関数の仕組みを実装する。関数は、関数の冒頭の位置と、引数の個数と、関数を生成した時点の環境を参照する。
+次に、関数の仕組みを実装する。関数は、関数が実行する最初の命令の位置と、関数を生成した時点の環境を参照する。
 関数が参照する環境は、この関数を包み込む関数の引数を格納した環境である。関数閉包を実現するための布石である。
 
 \begin{Verbatim}{Scala}
-case class Closure(from: Int, narg: Int, out: Env)
+case class Closure(from: Int, out: Env)
 \end{Verbatim}
 
 遅延評価の仕組みも実装する。遅延評価は、関数の引数を包む関数と、その計算結果を格納する記憶領域で構成される。
@@ -1226,13 +1226,13 @@ case object BAnd extends Typed(2, "&", Bt, v => v.head.asInstanceOf[B] & v.last.
 
 \section{分岐命令の設計\label{sect:jump}}
 
-分岐命令は\texttt{Jump}型を継承する。引数に渡された関数が整数を返す場合は、命令を読み取る位置を整数の位置に変更する。
+分岐命令は\texttt{Jump}型を継承する。条件分岐や関数を呼び出す際に必要で、具体的に言えば、\texttt{pc}の値を操作する機能がある。
 
 \begin{Verbatim}{Scala}
 class Jump(op: FaVM => Option[Int]) extends Code(vm => op(vm).foreach(to => vm.pc = to - 1))
 \end{Verbatim}
 
-\texttt{Skip}命令は、無条件分岐の命令で、指定された個数の命令を読み飛ばす。特に、条件分岐からの脱出で使う命令である。
+\texttt{Skip}命令は、無条件分岐の命令で、指定された個数の命令を読み飛ばす。特に、条件分岐の処理から離脱する際に使う。
 \texttt{Skin}命令は、値をスタックから取り出し、偽の場合は指定された個数の命令を読み飛ばす。条件分岐や遅延評価で使う。
 
 \begin{Verbatim}{Scala}
@@ -1240,11 +1240,11 @@ case class Skip(plus: Int) extends Jump(vm => Some(vm.pc + plus))
 case class Skin(plus: Int) extends Jump(vm => Option.when(!vm.data.popAs[B])(vm.pc + plus))
 \end{Verbatim}
 
-\texttt{Def}命令は、指定された個数の引数を取る関数を生成する。関数の開始位置と環境を保存し、関数定義の直後に脱出する。
+\texttt{Def}命令は、それに続く命令列を実行する関数を生成する。最初の命令の位置と環境を記録して、関数の直後に移動する。
 
 \begin{Verbatim}{Scala}
-case class Def(size: Int, narg: Int) extends Jump(vm => Some {
-	vm.data.push(Closure(vm.pc + 1, narg, vm.call.env))
+case class Def(size: Int) extends Jump(vm => Some {
+	vm.data.push(Closure(vm.pc + 1, vm.call.env))
 	vm.pc + size
 })
 \end{Verbatim}
@@ -1258,20 +1258,19 @@ case object Ret extends Jump(vm => Some {
 })
 \end{Verbatim}
 
-\texttt{Call}命令は、指定された個数の引数で環境を構築する。関数から復帰する際の位置を控え、関数の開始位置に移動する。
+\texttt{Call}命令は、引数を回収して、関数の環境を構築する。関数を終えた後に戻る場所も記録して、関数の実行を開始する。
 
 \begin{Verbatim}{Scala}
 case class Call(argc: Int) extends Jump(vm => Some {
 	val args = vm.data.popN(argc)
 	val func = vm.data.popAs[Closure]
-	require(args.length == func.narg)
 	vm.call.push(Env(args, func.out))
 	vm.data.push(vm.pc + 1)
 	func.from
 })
 \end{Verbatim}
 
-関数を正格評価する場合は、\sectref{func}に実装した\texttt{Load}命令と、\sectref{op}の演算命令と、\sectref{jump}の分岐命令で事足りる。
+関数の正格評価は、\texttt{Call}命令と\texttt{Load}命令だけで実現できる。非正格評価の場合は、\sectref{lazy}に述べる命令が必要である。
 
 \section{遅延評価の設計\label{sect:lazy}}
 
@@ -1291,12 +1290,13 @@ case object Ref extends Code(vm => vm.data.push(vm.data.topAs[Promise].thunk))
 \end{Verbatim}
 
 \texttt{Ref}命令は、引数の実体である関数を取り出す。\texttt{Ref}命令を実行した直後に\texttt{Call}命令を実行すれば、引数の値が求まる。
-\texttt{Set}命令は、引数に値を設定する。\texttt{Fix}命令を実行すると、引数の値が確定する。以上の命令で、非正格評価を実現する。
 
 \begin{Verbatim}{Scala}
 case object Set extends Code(vm => vm.data.popAs[Promise].cache = vm.data.pop)
 case object Fix extends Code(vm => vm.data.topAs[Promise].empty = false)
 \end{Verbatim}
+
+\texttt{Set}命令は、引数に値を設定する。\texttt{Fix}命令を実行すると、引数の値が確定する。以上の命令で、非正格評価を実現する。
 
 \chapter{コンパイラを作る\label{chap:favac}}
 
@@ -1312,7 +1312,7 @@ trait AST {
 \end{Verbatim}
 
 \texttt{res}は、\sectref{type}で実装する型推論を実行して、式の型を決定する。\texttt{gen}は、型推論の結果に従って、命令列を生成する。
-引数\texttt{env}は、その構文木が表す式を包む最も内側の関数を表す。関数の引数を探す場合は、関数を外向きに辿って探す。
+\texttt{env}は、その構文木が表す式を包む最も内側の関数を表す。関数の引数を探す場合は、関数を外向きに辿って探索する。
 
 \section{定数と演算\label{sect:OpST}}
 
@@ -1367,7 +1367,7 @@ case class MulST(op: String, e1: AST, e2: AST) extends AST {
 \section{分岐と関数\label{sect:CallST}}
 
 条件分岐の式は\texttt{IfST}型で表す。条件式と、真の場合に評価する式と、偽の場合に評価する式で、合計3個の引数を取る。
-条件分岐は、条件式の命令列の後に、\texttt{Skin}命令と、真の場合の命令列と、\texttt{Skip}命令と、偽の場合の命令列を配置する。
+条件分岐は、\texttt{Skin}命令と\texttt{Skip}命令の併用により実現する。条件式の真偽値により、次に実行する命令列が切り替わる。
 
 \begin{Verbatim}{Scala}
 case class IfST(c: AST, e: (AST, AST)) extends AST {
@@ -1380,7 +1380,7 @@ case class IfST(c: AST, e: (AST, AST)) extends AST {
 \end{Verbatim}
 
 次に、関数を表す\texttt{DefST}型を実装する。引数は、関数の引数と内容である。また、外側の関数を参照する変数を定義する。
-関数は、内容の命令列を生成して、命令の個数と引数の個数を指定した\texttt{Def}命令と、\texttt{Ret}命令を冒頭と最後に配置する。
+関数を表す命令列は、関数閉包を生成する\texttt{Def}命令を筆頭に、その関数が実行する命令列が続き、\texttt{Ret}命令が配置される。
 
 \begin{Verbatim}{Scala}
 case class DefST(params: Seq[String], value: AST) extends AST {
@@ -1388,7 +1388,7 @@ case class DefST(params: Seq[String], value: AST) extends AST {
 	def get(name: String, depth: Int) = Load(depth, params.indexOf(name)) -> args(name)
 	def res(implicit env: Seq[DefST]) = Form(params.map(args) :+ value.res(env :+ this) :_*)
 	def gen(implicit env: Seq[DefST]) = tag(value.gen(env :+ this))
-	def tag(codes: Seq[Code]) = Def(codes.size + 2, params.size) +: codes :+ Ret
+	def tag(codes: Seq[Code]) = Def(codes.size + 2) +: codes :+ Ret
 }
 \end{Verbatim}
 
