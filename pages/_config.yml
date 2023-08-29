@@ -13,7 +13,7 @@ items:
   href: /real.html
 - name: コンパイラ
   href: /fava.html
-- name: 仮想マシン
+- name: LISP
   href: /rava.html
 - name: 機械学習
   href: /mine.html
