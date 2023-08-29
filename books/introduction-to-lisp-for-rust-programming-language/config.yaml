@@ -1,0 +1,17 @@
+---
+title: Rustで自作するLISP入門
+subtitle: Introduction to LISP for Rust Programming Language
+topics:
+- Rust
+- LISP
+- 言語処理系
+- マクロ
+- ガベージコレクタ
+youtube:
+summary:
+chapters:
+- '1'
+- '2'
+- '3'
+- '4'
+published: true
