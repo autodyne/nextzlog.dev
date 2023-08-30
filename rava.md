@@ -1,10 +1,10 @@
 ---
-title: Rustで自作するLISP入門
-subtitle: Introduction to LISP for Rust Programming Language
-topics: Rust,LISP,言語処理系,マクロ,ガベージコレクタ
+title: Rustで自作するSECDマシンとLISP入門
+subtitle: Introduction to SECD & LISP on Rust
+topics: Rust,SECD,LISP,GC,自作言語
 youtube:
 pdf: rava.pdf
-web: https://zenn.dev/nextzlog/books/introduction-to-lisp-for-rust-programming-language
+web: https://zenn.dev/nextzlog/books/introduction-to-secd-lisp-on-rust
 ---
 ## 1 構文解析器の実装
 
