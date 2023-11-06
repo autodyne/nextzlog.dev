@@ -11,10 +11,8 @@ items:
   href: /zylo.html
 - name: コンテスト
   href: /real.html
-- name: コンパイラ
+- name: 自作言語
   href: /fava.html
-- name: LISP
-  href: /rava.html
 - name: 機械学習
   href: /mine.html
 - name: 並列処理
