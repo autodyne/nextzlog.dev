@@ -19,6 +19,8 @@ items:
   href: /dusk.html
 - name: 並列言語
   href: /chpl.html
+- name: 制御理論
+  href: /wave.html
 links:
 - name: zLog
   href: https://zlog.org
