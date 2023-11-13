@@ -91,7 +91,7 @@
 \def\PH{\paperheight}
 \definecolor{azure}{rgb}{0.0,0.0,0.5}
 \definecolor{flame}{rgb}{1.0,0.0,0.0}
-\definecolor{rusty}{rgb}{0.2,0.2,0.2}
+\definecolor{rusty}{rgb}{0.8,0.8,0.8}
 \definecolor{spark}{rgb}{1.0,1.0,0.0}
 \usetikzlibrary{decorations.text}
 \tikzset{white/.style={color=white}}
@@ -100,26 +100,25 @@
 \tikzset{rusty/.style={color=rusty}}
 \tikzset{spark/.style={color=spark}}
 \tikzstyle{every node}=[font=\bfseries\sffamily]
-\draw[black, fill=black] (-.49\PW,+.00\PH) rectangle (+.49\PW,+.48\PH);
-\draw[black, fill=black] (-.49\PW,-.35\PH) rectangle (+.49\PW,-.26\PH);
+\draw[black, fill=black] (-.48\PW,+.00\PH) rectangle (+.49\PW,+.48\PH);
+\draw[black, fill=black] (-.48\PW,-.35\PH) rectangle (+.49\PW,-.26\PH);
 \draw[rusty, fill=rusty] (-.49\PW,+.01\PH) rectangle (+.48\PW,+.49\PH);
 \draw[rusty, fill=rusty] (-.49\PW,-.34\PH) rectangle (+.48\PW,-.25\PH);
 \draw[azure, line width=3mm] (+.00\PW,-.35\PH)--(+.00\PW,-.40\PH);
 \draw[azure, line width=5mm] (-.09\PW,-.40\PH)--(+.09\PW,-.40\PH);
 \draw[azure, line width=3mm] (-.06\PW,-.42\PH)--(+.06\PW,-.42\PH);
 \draw[azure, line width=3mm] (-.03\PW,-.44\PH)--(+.03\PW,-.44\PH);
-\draw[black, fill=white] (0,0) circle (.21\PW);
-\draw[black, fill=black] (0,0) circle (.20\PW);
-\draw[black, fill=white] (0,0) circle (.15\PW);
+\draw[black, fill=white] (0,0) circle (.205\PW);
+\draw[black, fill=black] (0,0) circle (.200\PW);
+\draw[black, fill=white] (0,0) circle (.150\PW);
 \begin{scope}
 \clip (-.00\PW,+.00\PW) circle (.145\PW);
-\draw[white, fill=flame] (0,0) circle(.145\PW);
+\draw[white, fill=flame] (0,0) circle (.145\PW);
 \draw[white, fill=white] (-.02\PW,+.02\PW) circle (.14\PW);
 \draw[azure, line width=3mm] (+.00\PW,+.04\PH)--(+.00\PW,-.25\PH);
 \draw[azure, line width=3mm] (+.00\PW,-.03\PH)--(-.08\PW,+.04\PH)--(+.08\PW,+.04\PH)--cycle;
 \end{scope}
-\draw[black] (0,0) circle(.145\PW);
-\draw[black] (0,0) circle(.205\PW);
+\draw[black] (0,0) circle (.145\PW);
 \NewDocumentCommand\LargeSize{}{\fontsize{.03\PW}{0pt}\selectfont}
 \NewDocumentCommand\TitleSize{}{\fontsize{.05\PW}{0pt}\selectfont}
 \NewDocumentCommand\BadgeSize{}{\fontsize{.02\PW}{0pt}\selectfont}
@@ -127,8 +126,8 @@
 \tikzset{logos/.style={decoration={text align=center, text along path, reverse path, text color=spark}}}
 \path[decorate, logos, decoration={text=|\BadgeSize|\ltext}] (-.168\PW,0) arc (-180:+180:.168\PW);
 \node[black] at (0,+.06\PH) {\LargeSize\textbf{\textrm{\@volume}}};
-\node[white] at (0,+.25\PH) {\TitleSize\textbf{\textsf{\@maintitle}}};
-\node[white] at (0,-.30\PH) {\LargeSize\textbf{\textsf{\@author}}};
+\node[black] at (0,+.25\PH) {\TitleSize\textbf{\textsf{\@maintitle}}};
+\node[black] at (0,-.30\PH) {\LargeSize\textbf{\textsf{\@author}}};
 \node[black] at (0,-.20\PH) {\LargeSize\@date};
 \node[spark] at (0,-.40\PH) {\texttt{\href{https://\@homepage/\jobname.pdf}{\@homepage}}};
 \end{tikzpicture}}}
