@@ -8,7 +8,7 @@ topics:
 - スレッド
 - HPC
 youtube:
-summary: 軽量スレッドによるタスク並列処理系を自作密行列積の速度を実測。高性能計算の基礎を学びます。
+summary: 軽量スレッドによるタスク並列処理系を自作密行列積の速度を実測。高性能計算の基礎を学びます。 <a href='https://nextzlog.dev/dusk.pdf'>PDF</a>
 chapters:
 - '1'
 - '2'
