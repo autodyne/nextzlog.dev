@@ -50,7 +50,7 @@ FileUtils.mkdir_p(path)
 File.open(File.join(path, 'config.yaml'), mode='w') do |file|
 	YAML.dump(yaml.merge({
 		'topics' => yaml['topics'].split(','),
-		'summary' => desc,
+		'summary' => "#{desc} https://nextzlog.dev/#{name}.pdf",
 		'chapters' => (1..subs.size).map(&:to_s),
 		'published' => true,
 	}), file)
