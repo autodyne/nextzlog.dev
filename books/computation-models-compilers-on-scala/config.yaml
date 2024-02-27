@@ -8,7 +8,7 @@ topics:
 - 型推論
 - ラムダ計算
 youtube:
-summary: 関数型言語を自作。パーサコンビネータも型推論も仮想マシンも手作り。計算論の基礎を学びます。 [PDF](https://nextzlog.dev/fava.pdf)
+summary: 関数型言語を自作。パーサコンビネータも型推論も仮想マシンも手作り。計算論の基礎を学びます。 https://nextzlog.dev/fava.pdf
 chapters:
 - '1'
 - '2'
