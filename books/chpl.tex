@@ -345,7 +345,7 @@ writeln("CPU:", sched_getcpu());
 
 \begin{Verbatim}{Chapel}
 proc tuplet(param dim: int, type eltType) type return dim * eltType;
-const septet: tuplet(7, int) = (114, 514, 1919, 810, 364, 889, 464);
+const fac: tuplet(9, int) = (1, 1, 2, 6, 24, 120, 720, 5040, 40320);
 \end{Verbatim}
 
 \texttt{inout}や\texttt{out}で宣言された引数の値は、関数から戻る際に書き戻される。ただし、\texttt{out}の場合は、実引数が無視される。
