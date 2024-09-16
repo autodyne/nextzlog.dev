@@ -1,0 +1,18 @@
+---
+title: D言語で実装する並列スケジューラ入門
+subtitle: Parallel Work-Stealing Scheduler on D
+topics:
+- D言語
+- 並列処理
+- 高性能計算
+- スレッド
+- HPC
+youtube:
+summary: 軽量スレッドによるタスク並列処理系を自作密行列積の速度を実測。高性能計算の基礎を学びます。 https://nextzlog.dev/dusk.pdf
+chapters:
+- '1'
+- '2'
+- '3'
+- '4'
+- '5'
+published: true

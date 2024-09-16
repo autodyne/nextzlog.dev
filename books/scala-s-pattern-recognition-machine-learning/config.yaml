@@ -1,0 +1,19 @@
+---
+title: Scalaで実装するパターン認識と機械学習
+subtitle: Scala's Pattern Recognition & Machine Learning
+topics:
+- Scala
+- 機械学習
+- PRML
+- 最尤推定
+- ベイズ推定
+youtube:
+summary: 線型回帰からカーネル法まで。決定木から変分ベイズ法まで。機械学習の理論を実践的に学びます。 https://nextzlog.dev/mine.pdf
+chapters:
+- '1'
+- '2'
+- '3'
+- '4'
+- '5'
+- '6'
+published: true

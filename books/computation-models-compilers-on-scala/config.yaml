@@ -1,0 +1,20 @@
+---
+title: Scalaで自作するプログラミング言語処理系
+subtitle: Computation Models & Compilers on Scala
+topics:
+- Scala
+- 自作言語
+- 構文解析
+- 型推論
+- ラムダ計算
+youtube:
+summary: 関数型言語を自作。パーサコンビネータも型推論も仮想マシンも手作り。計算論の基礎を学びます。 https://nextzlog.dev/fava.pdf
+chapters:
+- '1'
+- '2'
+- '3'
+- '4'
+- '5'
+- '6'
+- '7'
+published: true

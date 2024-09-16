@@ -1,0 +1,21 @@
+---
+title: うさぎさんでもわかる並列言語Chapel
+subtitle: Chapel the Parallel Programming Language
+topics:
+- Chapel
+- 並列処理
+- 高性能計算
+- PGAS
+- HPC
+youtube:
+summary: 型推論とテンプレートと区分化大域アドレス空間を特徴とした並列プログラミング言語の解説記事。 https://nextzlog.dev/chpl.pdf
+chapters:
+- '1'
+- '2'
+- '3'
+- '4'
+- '5'
+- '6'
+- '7'
+- '8'
+published: true
