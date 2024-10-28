@@ -4,9 +4,11 @@ on:
     - 'master'
   schedule:
   - cron: '0 0 * * *'
+  workflow_dispatch:
 permissions:
   contents: write
   id-token: write
+  actions: write
   pages: write
 env:
   ISSUES: repos/nextzlog/todo/issues
@@ -105,3 +107,9 @@ jobs:
       url: ${{steps.deployment.outputs.page_url}}
     steps:
     - uses: actions/deploy-pages@v1
+  Sustain:
+    runs-on: ubuntu-latest
+    steps:
+    - run: gh workflow enable build.yaml
+      env:
+        GH_REPO: ${{github.repository}}
