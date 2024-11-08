@@ -18,7 +18,7 @@ books:
 
 ## 無線部開発班の技術記事
 
-<div class='row g-2'>
+<div class='row g-5'>
 	{% for book in page.books %}
 		<a href='/{{book}}' class='col-4'>
 			<img src='images/{{book}}.png' class='img-thumbnail' alt='{{book}}'>
