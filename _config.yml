@@ -13,8 +13,10 @@ links:
 - name:
   href: https://twitter.com/nextzlog
   icon: fab fa-twitter
-- name: zLog
-  href: https://zlog.org
+- name: dev zLog
+  href: https://dev.zlog.org
+- name: use zLog
+  href: https://use.zlog.org
 - name: 東大無線部
   href: https://ja1zlo.u-tokyo.org
 jumps:
