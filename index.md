@@ -7,14 +7,13 @@ books:
 - mine
 - dusk
 - chpl
-- ats4
 ---
 
 ## 無線部開発班の技術記事
 
 <div class='row g-3'>
 	{% for book in page.books %}
-		<a href='/{{book}}' class='col-lg-3 col-md-4 col-sm-6'>
+		<a href='/{{book}}' class='col-md-3 col-6'>
 			<img src='images/{{book}}.png' class='img-thumbnail' alt='{{book}}'>
 		</a>
 	{% endfor %}
