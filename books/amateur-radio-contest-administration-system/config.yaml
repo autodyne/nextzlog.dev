@@ -5,7 +5,7 @@ topics:
 - アマチュア無線
 - コンテスト
 - 自動集計
-youtube: https://www.youtube.com/embed/Yb6QY7BI4kA?vq=hd1080
+youtube:
 summary: アマチュア無線のコンテストの集計作業を自動化。様々なコンテストに対応。楽しく開催できます。 https://nextzlog.dev/ats4.pdf
 chapters:
 - '1'
