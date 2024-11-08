@@ -11,9 +11,9 @@ books:
 ---
 
 {% for book in page.books %}
-	<div class='row g-2'>
-		<a href='/{{book}}' class='col-md-3 col-sm-6'>
-			<img src='images/{{book}}.png' class='img-thumbnail' alt='{{book}}'>
-		</a>
-	</div>
+<div class='row g-2'>
+	<a href='/{{book}}' class='col-md-3 col-sm-6'>
+		<img src='images/{{book}}.png' class='img-thumbnail' alt='{{book}}'>
+	</a>
+</div>
 {% endfor %}
