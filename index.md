@@ -10,6 +10,8 @@ books:
 - ats4
 ---
 
+## Books
+
 <div class='row g-2'>
 	{% for book in page.books %}
 		<a href='/{{book}}' class='col-md-3 col-sm-6'>
@@ -17,3 +19,5 @@ books:
 		</a>
 	{% endfor %}
 </div>
+
+## Issues
