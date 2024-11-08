@@ -5,28 +5,18 @@ icon: /assets/head.png
 lead: automatic tabulation system for hamradio contests, parallel computing framework, programming language processors, machine learning, etc.
 desc: アマチュア無線のコンテスト運営システムから, 並列計算フレームワーク, プログラミング言語処理系, 機械学習まで, ソフトウェア科学の記事を公開.
 items:
-- name: ATS-4
-  href: /ats4.html
 - name: ZyLO
   href: /zylo.html
-- name: コンテスト
+- name: リアルタイムコンテスト
   href: /real.html
-- name: 自作言語
-  href: /fava.html
-- name: 機械学習
-  href: /mine.html
-- name: 並列処理
-  href: /dusk.html
-- name: 並列言語
-  href: /chpl.html
-- name: 制御理論
-  href: /wave.html
 links:
-- name: zLog
-  href: https://zlog.org
 - name:
   href: https://twitter.com/nextzlog
   icon: fab fa-twitter
+- name: dev zLog
+  href: https://dev.zlog.org
+- name: use zLog
+  href: https://use.zlog.org
 - name: 東大無線部
   href: https://ja1zlo.u-tokyo.org
 jumps:
