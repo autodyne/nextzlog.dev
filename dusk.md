@@ -3,8 +3,7 @@ title: D言語で実装する並列スケジューラ入門
 subtitle: Parallel Work-Stealing Scheduler on D
 topics: D言語,並列処理,高性能計算,スレッド,HPC
 youtube:
-pdf: dusk.pdf
-web: https://zenn.dev/nextzlog/books/parallel-work-stealing-scheduler-on-d
+redirect_to: https://zenn.dev/nextzlog/books/parallel-work-stealing-scheduler-on-d
 ---
 ## 1 並列スケジューラの概念
 

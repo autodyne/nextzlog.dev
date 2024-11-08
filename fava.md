@@ -3,8 +3,7 @@ title: Scalaで自作するプログラミング言語処理系
 subtitle: Computation Models & Compilers on Scala
 topics: Scala,自作言語,構文解析,型推論,ラムダ計算
 youtube:
-pdf: fava.pdf
-web: https://zenn.dev/nextzlog/books/computation-models-compilers-on-scala
+redirect_to: https://zenn.dev/nextzlog/books/computation-models-compilers-on-scala
 ---
 ## 1 言語処理系を作る
 
