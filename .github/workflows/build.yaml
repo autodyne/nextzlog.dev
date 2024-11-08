@@ -86,7 +86,8 @@ jobs:
         mv books/*.pdf pages
         mv books/*.*.svg pages/images
         mv files/*/*.png pages/images
-        mv pages/books/????.md pages
+        mv pages/books/*.md pages
+        mv pages/books/*.png pages/images
     - run: gh api $ISSUES --paginate > issues.json
       working-directory: pages/_data
     - uses: actions/configure-pages@v2

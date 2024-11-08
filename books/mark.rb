@@ -34,7 +34,7 @@ desc = YAML.load(File.read(File.join(root, 'pages/_config.yml')))['briefs'][name
 
 # output abstract
 FileUtils.mkdir_p(name)
-File.open(File.join(name, sprintf('%s.md', name)), mode='w') do |file|
+File.open(File.join(name, "#{name}.md"), mode='w') do |file|
 	file.puts('---')
 	file.puts(conf)
 	file.puts("redirect_to: #{HOST}/#{File.basename(path)}")
@@ -56,7 +56,7 @@ end
 
 # output chapters
 subs.each.with_index(1) do |body, index|
-	File.open(File.join(path, sprintf('%d.md', index)), mode='w') do |file|
+	File.open(File.join(path, "#{index}.md"), mode='w') do |file|
 		file.puts('---')
 		file.puts("title: #{body.lines.first.strip}")
 		file.puts('---')
@@ -66,4 +66,5 @@ end
 
 # create cover
 system("pdf2svg #{post} cover.svg 1")
-system("inkscape --export-png=#{File.join(path, 'cover.png')} cover.svg")
+system("inkscape --export-png=#{File.join(name, "#{name}.png")} cover.svg")
+FileUtils.copy(File.join(name, "#{name}.png"), File.join(path, 'cover.png'))
