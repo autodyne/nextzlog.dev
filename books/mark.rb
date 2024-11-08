@@ -37,10 +37,8 @@ FileUtils.mkdir_p(name)
 File.open(File.join(name, sprintf('%s.md', name)), mode='w') do |file|
 	file.puts('---')
 	file.puts(conf)
-	file.puts("pdf: #{name}.pdf")
-	file.puts("web: #{HOST}/#{File.basename(path)}")
+	file.puts("redirect_to: #{HOST}/#{File.basename(path)}")
 	file.puts('---')
-	subs.each{|body| file.puts("## #{body}")}
 end
 
 exit if subs.empty?

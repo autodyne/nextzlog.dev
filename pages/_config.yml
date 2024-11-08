@@ -45,5 +45,6 @@ briefs:
 google_analytics: UA-75073167-1
 plugins:
 - jekyll-sitemap
+- jekyll-redirect-from
 exclude:
 - books
