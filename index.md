@@ -20,7 +20,7 @@ books:
 
 <div class='row g-5'>
 	{% for book in page.books %}
-		<a href='/{{book}}' class='col-4'>
+		<a href='/{{book}}' class='col-lg-2 col-md-3 col-sm-6'>
 			<img src='images/{{book}}.png' class='img-thumbnail' alt='{{book}}'>
 		</a>
 	{% endfor %}
