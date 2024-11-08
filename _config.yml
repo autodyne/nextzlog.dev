@@ -2,7 +2,7 @@ remote_theme: autodyne/pafe
 url: https://nextzlog.dev
 name: 無線部開発班
 icon: /assets/head.png
-lead: We provide the amateur radio contest management system ATS-4 and communication logging software zLog.
+lead: We provide amateur radio contest management system ATS-4 and communication logging software zLog.
 desc: アマチュア無線のコンテスト運営システムATS-4と交信記録ソフトzLogを提供します
 items:
 - name: ZyLO
