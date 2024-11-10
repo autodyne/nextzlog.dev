@@ -13,12 +13,8 @@ links:
 - name:
   href: https://twitter.com/nextzlog
   icon: fab fa-twitter
-- name: dev zLog
-  href: https://dev.zlog.org
-- name: use zLog
-  href: https://use.zlog.org
-- name: ZyLO API
-  href: https://nextzlog.github.io/zylo
+- name: zLog
+  href: https://zlog.org
 - name: ALLJA1
   href: https://allja1.org
 - name: 東大無線部
