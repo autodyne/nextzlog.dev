@@ -279,7 +279,7 @@
 \NewDocumentCommand\dprod{m m}{#1 \cdot #2}
 \NewDocumentCommand\iprod{m m}{\left\langle #1,#2\right\rangle}
 \NewDocumentCommand\pdiff{m m}{\frac{\partial #1}{\partial #2}}
-\NewDocumentCommand\trans{m}{{}^t#1}
+\NewDocumentCommand\trans{m}{#1^\top}
 \NewDocumentCommand\trace{m}{\mathrm{tr}\left(#1\right)}
 \NewDocumentCommand\where{}{\enspace\mathrm{where}\enspace}
 \NewDocumentCommand\normal{m m m}{\frac{\hfill #3}{\sum_{#1}^{#2} #3}}
