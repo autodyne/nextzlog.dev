@@ -6,6 +6,9 @@
 \NewDocumentCommand\Env{m}{\Gamma \vdash #1}
 \DeclareMathOperator*{\app}{\enspace\xrightarrow[\beta]{}\enspace}
 
+% 第9章「コンビネータ論理」
+% ((S,K,I) => expression)(S,K,I)の形でSKI論理を組み込み、SKIで任意の計算を実行可能な様子を示す
+
 \book{Scalaで自作するプログラミング言語処理系}{Computation Models {\&} Compilers on Scala}{2}{Scala,自作言語,構文解析,型推論,ラムダ計算}
 
 \begin{document}
@@ -20,7 +23,7 @@
 \section{サンプル}
 
 理念的には\textbf{純粋関数型言語}に分類できる。状態の概念がなく、式の値は定数だが、理論的には任意の計算を実行できる。
-関数は関数の引数や返り値にできる。ただし、関数の名前も局所変数も定義できず、参照可能な変数は引数に限られる。
+関数は他の関数の引数や返り値にできる。ただし、関数の名前も局所変数も定義できず、参照可能な変数は引数に限る。
 
 \begin{Verbatim}{sample}
 fava$ ((x)=>(y)=>3*x+7*y)(2)(3)
@@ -60,7 +63,7 @@ $ gradle build -p fava
 \end{Verbatim}
 
 以下の操作で起動する。\fava{}以外にも、\chapref{automata}で実装する様々な計算モデルを実験する機能も含まれ、起動時に選べる。
-\fava{}は対話的に実行できる。\fava{}の内部で実行される命令列を表示する機能も用意した。内部的な動作の理解に役立つ。
+\fava{}は対話的に実行できる。\fava{}の内部で実行される命令列を表示する機能も用意した。内部的な動作の理解に使える。
 
 \begin{Verbatim}{sample}
 $ java -jar build/libs/fava.jar --fava
@@ -164,123 +167,6 @@ val ZLO = Cat(One('Z'), Cat(Alt(Rep(One('L')), One('G')), One('O')))
 println(if(ZLO.test("ZLLLLLLLLLLLLLLLLO").isDefined) "OK" else "NO")
 \end{Verbatim}
 
-\section{セルオートマトン\label{sect:cell}}
-
-単体の有限状態機械は、再帰計算が苦手である。しかし、その集合体である\textbf{セルオートマトン}は、任意の計算ができる。
-構成単位を\textbf{セル}と呼ぶ。各セルは、近傍$k$個のセルの状態を参照し、\eqref{cell}に示す遷移規則$\delta$に従って、状態遷移する。
-%
-\begin{equation}
-\label{eq:cell}
-\delta: Q^k \to Q.
-\end{equation}
-%
-空間的な自由を得た恩恵で、再帰構造を持つ計算に対応する。例えば、\textbf{フラクタル図形}を描画する遷移規則が存在する。
-さて、2次元のセルオートマトンの実装例を、以下に示す。引数は、遷移規則と、縦横に並んだセルの最初の状態である。
-
-\begin{Verbatim}{Scala}
-class Grid[S](rule: Rule[S], data: Array[Array[S]]) {
-	def update = {
-		val next = rule(data.map(_.toSeq).toSeq)
-		next.zip(data).foreach(_.copyToArray(_))
-	}
-}
-\end{Verbatim}
-
-全てのセルが同時に状態遷移する\textbf{同期型セルオートマトン}を以下に実装する。引数は、遷移規則と、近傍の距離である。
-
-\begin{Verbatim}{Scala}
-class Rule[S](rule: Seq[Seq[S]] => S, d: Int = 1) {
-	def ROI[V](i: Int)(s: Seq[V]) = Range.inclusive(i - d, i + d).map(Math.floorMod(_, s.size)).map(s)
-	def apply(s: Seq[Seq[S]]) = s.indices.map(x => s(x).indices.map(y => rule(ROI(x)(s).map(ROI(y)))))
-}
-\end{Verbatim}
-
-理論的には、任意の遷移規則を初期状態で受け取り、模倣する万能機械も構築できる。その例が\textbf{ワイヤワールド}である。
-黒の基板に黄色の配線を作ると、信号が配線を巡り、記憶素子を含む、様々な論理回路を模倣する。\figref{wire}に例を示す。
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=\linewidth]{images/wire.count.eps}
-\caption{Wireworld logic circuits.\label{fig:wire}}
-\end{figure}
-
-\figref{wire}は\textbf{カウンタ}である。左側の\textbf{発振回路}から周期的に信号を送る度に、右側の4本の配線を流れる信号が切り替わる。
-
-\begin{Verbatim}{Scala}
-object WireWorldRule extends Rule[Char](ROI => (ROI(1)(1), ROI.flatten.count(_ == 'H')) match {
-	case ('W', 1) => 'H'
-	case ('W', 2) => 'H'
-	case ('W', _) => 'W'
-	case ('H', _) => 'T'
-	case ('T', _) => 'W'
-	case ('B', _) => 'B'
-})
-\end{Verbatim}
-
-\section{チューリング機械\label{sect:turing}}
-
-\textbf{チューリング機械}は、無限長の\textbf{テープ}と、その内容を読み書きする有限状態機械と、\eqref{tape}の遷移関数$\delta$で構成される。
-状態$q_n$で記号$x_n$を読み取ると、記号$y_n$に書き換える。状態$q_{n+1}$に遷移して$\lambda_n$の方向に移動し、再び記号を読み取る。
-%
-\begin{equation}
-\label{eq:tape}
-(q_{n+1},y_n,\lambda_n) = \delta(q_n,x_n),
-\where
-\where
-\left\{
-\begin{aligned}
-q_n &\in Q,\\
-x_n,y_n &\in \Sigma,\\
-\lambda_n &\in \{L,R\}.
-\end{aligned}
-\right.
-\end{equation}
-%
-この動作は、任意の逐次処理型の計算機と等価であり、並列処理型のセルオートマトンと並んで、計算機の頂点に立つ。
-特に、\textbf{帰納的に枚挙可能}な集合の計算が得意である。2進数で与えられた自然数の後続を求める手順を、\figref{tape}に示す。
-
-\begin{figure}[h]
-\centering
-\subfloat[\texttt{100=011+001}.]{\includegraphics[width=.33\linewidth]{images/tape.plus1.eps}}
-\subfloat[\texttt{110=101+001}.]{\includegraphics[width=.33\linewidth]{images/tape.plus2.eps}}
-\subfloat[\texttt{111=110+001}.]{\includegraphics[width=.33\linewidth]{images/tape.plus3.eps}}
-\caption{numerical increment operation on a Turing machine ($k=1$).\label{fig:tape}}
-\end{figure}
-
-任意の遷移関数を読み取り、その遷移関数を忠実に実行する、言語処理系と等価な\textbf{万能チューリング機械}も実装できる。
-遷移関数と計算手順で、異なるテープを使用した例を\texttt{UTM}型に実装する。状態0から1にかけて、遷移規則を検索する。
-
-\begin{Verbatim}{Scala}
-class UTM[V](data1: Seq[V], data2: Seq[V], b1: V, b2: V, mL: V, mR: V, var s1: V, var s2: Int = 0) {
-	val tape1 = data1.zipWithIndex.map(_.swap).to(collection.mutable.SortedMap)
-	val tape2 = data2.zipWithIndex.map(_.swap).to(collection.mutable.SortedMap)
-	var hd1, hd2 = 0
-	def r1 = tape1.getOrElse(hd1, b1)
-	def r2 = tape2.getOrElse(hd2, b2)
-	def apply(sop: V) = Iterator.continually(s2 match {
-		case 0 if r2 == s1 => (s1 = s1, s2 = 1, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
-		case 0 if r2 != s1 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 5)
-		case 1 if r2 == r1 => (s1 = s1, s2 = 2, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
-		case 1 if r2 != r1 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 4)
-		case 2 if r2 != b2 => (s1 = r2, s2 = 3, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
-		case 3 if r2 != b2 => (s1 = s1, s2 = 4, tape1(hd1) = r2, hd1 += 0, hd2 += 1)
-		case 4 if r2 == b1 => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
-		case 4 if r2 == mL => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 -= 1, hd2 += 1)
-		case 4 if r2 == mR => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 1, hd2 += 1)
-		case 5 if r2 == b2 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
-		case 5 if r2 != b2 => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 0, hd2 -= 1)
-	}).takeWhile(t => s1 != sop || s2 != 0).map(t => tape1.values.mkString)
-}
-\end{Verbatim}
-
-状態2から4にかけて、状態遷移と書き戻しと移動を行う。状態5でテープの左端に戻り、状態0に戻る。使用例を示す。
-遷移規則は\eqref{tape}の通り、5個組で読み込ませる。初期状態\texttt{I}から状態\texttt{F}まで動かすと、\figref{tape}の計算が実行される。
-
-\begin{Verbatim}{Scala}
-case class CUTM(data1: String, data2: String) extends UTM(data1, data2, ' ', '*', 'L', 'R', 'I')
-CUTM("0111111", "I0a0RI1a1Ra0a0Ra1a1Ra b Lb0c1Lb1b0Lb F1 c0c0Lc1c1Lc F R")('F').foreach(println)
-\end{Verbatim}
-
 \section{逆ポーランド記法\label{sect:pola}}
 
 \textbf{スタック}を備え、再帰計算に対応した有限状態機械を\textbf{プッシュダウンオートマトン}と呼ぶ。\eqref{push}の遷移関数$\delta$に従う。
@@ -308,7 +194,7 @@ def ZLO: R[Char] = Cat(One('Z'), Cat(Alt(One('L'), new R(ZLO.test(_))), One('O')
 println(ZLO.test("ZZZZZZZZZZZZZZZZZZZZZZZZZLOOOOOOOOOOOOOOOOOOOOOOOOO").isDefined)
 \end{Verbatim}
 
-残念ながら、再帰計算は実行できても、受け取った記号列を読み返す機能がなく、計算能力はチューリング機械に劣る。
+残念ながら、単純な再帰計算は実行できても、受け取った記号列を読み返せる機能がなく、実行可能な計算は限られる。
 ただし、記憶装置としてスタックを使う広義の\textbf{スタック機械}は、重要な計算モデルである。\eqref{math}の計算を例に考える。
 %
 \begin{equation}
@@ -333,7 +219,8 @@ println(ZLO.test("ZZZZZZZZZZZZZZZZZZZZZZZZZLOOOOOOOOOOOOOOOOOOOOOOOOO").isDefine
 \caption{\texttt{1 2 + 10 20 - *}.\label{fig:math}}
 \end{figure}
 
-逆ポーランド記法とスタック機械による四則演算の実装例を以下に示す。数式は、整数と演算子を空白で区切って渡す。
+以下に、四則演算を行う計算機の実装を示す。\texttt{Stack}型を継承し、\figref{math}に示した手順で、数式の値を逐次的に求める。
+式は、空白で区切られた整数と演算子の列である。整数を読み取るとスタックに積み、演算子を読み取ると演算を行う。
 
 \begin{Verbatim}{Scala}
 object ArithStackMachine extends collection.mutable.Stack[Int]() {
@@ -347,14 +234,134 @@ object ArithStackMachine extends collection.mutable.Stack[Int]() {
 }
 \end{Verbatim}
 
-\figref{math}の手順で計算を行う。整数を読み取るとスタックに積み、演算子を読み取ると演算を行う。以下に使用例を示す。
+この実装は、\chapref{math}で再び使用する。\chapref{math}では、中置記法の数式を逆ポーランド記法に変換するコンパイラを実装する。
 
 \begin{Verbatim}{Scala}
 println(ArithStackMachine("1 2 + 10 20 - *")) // -30
 println(ArithStackMachine("3 4 * 10 20 * +")) // 212
+println(ArithStackMachine("5 6 10 + 20 * +")) // 325
+println(ArithStackMachine("7 8 10 * 20 - *")) // 420
 \end{Verbatim}
 
-この実装は、\chapref{math}で再び使用する。\chapref{math}では、中置記法の数式を逆ポーランド記法に変換するコンパイラを実装する。
+\chapter{万能な計算モデル\label{chap:turing}}
+
+\chapref{turing}では、記憶装置を備えた有限状態機械を解説する。再帰計算に対応し、可能な計算の範囲はラムダ計算に匹敵する。
+
+\section{セルオートマトン\label{sect:cell}}
+
+\textbf{セル}と呼ばれる有限状態機械が縦横に並び、各々$k$個の隣接セルの状態を参照して、\eqref{cell}により同時に状態遷移する。
+%
+\begin{equation}
+\label{eq:cell}
+\delta: Q^k \to Q.
+\end{equation}
+%
+空間に跨る記憶装置を得た恩恵で、再帰的な情報を表現できる。また、任意の計算機を模倣する遷移規則を設定できる。
+例えば、\figref{wire}の\textbf{ワイヤワールド}は、黄色のセルで配線すると、赤青の信号が配線を巡り、様々な論理回路を模倣する。
+
+\begin{figure}[h]
+\centering
+\subfloat[4bit counter.]{\includegraphics[width=.49\linewidth]{images/wire.count.eps}} \quad
+\subfloat[serial adder.]{\includegraphics[width=.49\linewidth]{images/wire.adder.eps}}
+\caption{wireworld logic circuits.\label{fig:wire}}
+\end{figure}
+
+任意の論理回路を自由に配置でき、その様子を言語と捉えれば、\figref{wire}は言語処理系と等価である。以下に実装を示す。
+
+\begin{Verbatim}{Scala}
+class CA2[S](rule: Seq[Seq[S]] => S, d: Int = 1) {
+	def ROI[V](i: Int)(s: Seq[V]) = Range.inclusive(i - d, i + d).map(Math.floorMod(_, s.size)).map(s)
+	def apply(s: Seq[Seq[S]]) = s.indices.map(x => s(x).indices.map(y => rule(ROI(x)(s).map(ROI(y)))))
+}
+\end{Verbatim}
+
+\texttt{rule}が遷移規則で、\texttt{apply}が状態遷移を表す。\texttt{ROI}が隣接セルである。具体的な遷移規則は、\texttt{CA2}型を継承して定義する。
+
+\begin{Verbatim}{Scala}
+object WireWorldRule extends CA2[Char](ROI => ROI(1)(1) match {
+	case 'W' if(ROI.flatten.count(_ == 'H') == 1) => 'H'
+	case 'W' if(ROI.flatten.count(_ == 'H') == 2) => 'H'
+	case 'W' => 'W'
+	case 'H' => 'T'
+	case 'T' => 'W'
+	case 'B' => 'B'
+})
+\end{Verbatim}
+
+以下は\textbf{ライフゲーム}の定義である。生命の進化や淘汰を思わせる複雑な模様を描き、やはり任意の計算機を模倣できる。
+
+\begin{Verbatim}{Scala}
+object LifeGameRule extends CA2[Char](ROI => ROI(1)(1) match {
+	case 'L' if(ROI.flatten.count(_ == 'L') == 3) => 'L'
+	case 'L' if(ROI.flatten.count(_ == 'L') == 4) => 'L'
+	case 'D' if(ROI.flatten.count(_ == 'L') == 3) => 'L'
+	case  _  => 'D'
+})
+\end{Verbatim}
+
+\section{チューリング機械}
+
+\textbf{チューリング機械}は、無限長の\textbf{テープ}と、その内容を読み書きする有限状態機械と、\eqref{tape}の遷移関数$\delta$で構成される。
+状態$q_n$で記号$x_n$を読み取ると、記号$y_n$に書き換える。状態$q_{n+1}$に遷移して$\lambda_n$の方向に移動し、再び記号を読み取る。
+%
+\begin{equation}
+\label{eq:tape}
+(q_{n+1},y_n,\lambda_n) = \delta(q_n,x_n),
+\where
+\left\{
+\begin{aligned}
+q_n &\in Q,\\
+x_n,y_n &\in \Sigma,\\
+\lambda_n &\in \{L,R\}.
+\end{aligned}
+\right.
+\end{equation}
+%
+逐次処理型の計算機と理論的に等価であり、実行可能な計算は、並列処理型の万能機械であるセルオートマトンに並ぶ。
+特に、\textbf{帰納的に枚挙可能}な集合の計算が得意である。2進数で与えられた自然数の後続を求める手順を、\figref{tape}に示す。
+
+\begin{figure}[h]
+\centering
+\subfloat[\texttt{100=011+001}.]{\includegraphics[width=.32\linewidth]{images/tape.plus1.eps}} \quad
+\subfloat[\texttt{110=101+001}.]{\includegraphics[width=.32\linewidth]{images/tape.plus2.eps}} \quad
+\subfloat[\texttt{111=110+001}.]{\includegraphics[width=.32\linewidth]{images/tape.plus3.eps}}
+\caption{numerical increment operation on a Turing machine ($k=1$).\label{fig:tape}}
+\end{figure}
+
+任意の遷移関数を読み取り、その遷移関数を忠実に実行する、言語処理系と等価な\textbf{万能チューリング機械}も実装できる。
+遷移関数と計算手順で、異なるテープを使用した例を\texttt{UTM}型に実装する。状態0から1にかけて、遷移規則を検索する。
+
+\begin{Verbatim}{Scala}
+class UTM[V](data1: Seq[V], data2: Seq[V], b1: V, b2: V, mL: V, mR: V, var s1: V, var s2: Int = 0) {
+	val tape1 = data1.zipWithIndex.map(_.swap).to(collection.mutable.SortedMap)
+	val tape2 = data2.zipWithIndex.map(_.swap).to(collection.mutable.SortedMap)
+	var hd1 = 0
+	var hd2 = 0
+	def r1 = tape1.getOrElse(hd1, b1)
+	def r2 = tape2.getOrElse(hd2, b2)
+	def apply(sop: V) = Iterator.continually(s2 match {
+		case 0 if r2 == s1 => (s1 = s1, s2 = 1, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 0 if r2 != s1 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 5)
+		case 1 if r2 == r1 => (s1 = s1, s2 = 2, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 1 if r2 != r1 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 4)
+		case 2 if r2 != b2 => (s1 = r2, s2 = 3, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 3 if r2 != b2 => (s1 = s1, s2 = 4, tape1(hd1) = r2, hd1 += 0, hd2 += 1)
+		case 4 if r2 == b1 => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 4 if r2 == mL => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 -= 1, hd2 += 1)
+		case 4 if r2 == mR => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 1, hd2 += 1)
+		case 5 if r2 == b2 => (s1 = s1, s2 = 0, tape1(hd1) = r1, hd1 += 0, hd2 += 1)
+		case 5 if r2 != b2 => (s1 = s1, s2 = 5, tape1(hd1) = r1, hd1 += 0, hd2 -= 1)
+	}).takeWhile(t => s1 != sop || s2 != 0).map(t => tape1.values.mkString)
+}
+\end{Verbatim}
+
+状態2から4にかけて、状態遷移と書き戻しと移動を行う。状態5でテープの左端に戻り、状態0に戻る。使用例を示す。
+遷移規則は\eqref{tape}の通り、5個組で読み込ませる。初期状態\texttt{I}から状態\texttt{F}まで動かすと、\figref{tape}の計算が実行される。
+
+\begin{Verbatim}{Scala}
+case class CUTM(data1: String, data2: String) extends UTM(data1, data2, ' ', '*', 'L', 'R', 'I')
+CUTM("0111111", "I0a0RI1a1Ra0a0Ra1a1Ra b Lb0c1Lb1b0Lb F1 c0c0Lc1c1Lc F R")('F').foreach(println)
+\end{Verbatim}
 
 \chapter{型付きラムダ計算\label{chap:lambda}}
 
@@ -371,7 +378,7 @@ f \coloneqq \lambda xy.2x+3y+z+1.
 %
 \begin{equation}
 \label{eq:curry}
-g \coloneqq \lambda x.\lambda y.2x+3y+1.
+g \coloneqq \lambda x.\lambda y.2x+3y+z+1.
 \end{equation}
 %
 \eqref{app}は、変数$x$と$y$を具体的な値で束縛する。これを関数適用と呼ぶ。また、式の実体を計算する操作を評価と呼ぶ。
@@ -723,7 +730,7 @@ LR法では、終端記号の列を読み進め、置換可能な部分を非終
 
 \begin{table}[h!]
 \raggedright
-\begin{tabular}{@{}Bll}
+\begin{tabular}{@{}Bl}
 加減算 & \verb#add ::= mul (('+' / '-') mul)*# \\
 乗除算 & \verb#mul ::= num (('*' / '/') num)*# \\
 整数値 & \verb#num ::= [0-9]+ / '(' add ')'#
@@ -974,7 +981,7 @@ lisp$ (defun fact (x) (if (eq x 1) x (* x (fact (- x 1)))))
 \end{tabular}
 \end{table}
 
-引数の値は変更不可能なため、識別子を含む式が参照する実体は、状態によらず自明である。これを\textbf{参照透明性}と呼ぶ。
+引数の値は変更できず、従って識別子を含む式が参照する実体は、状態によらず自明である。これを\textbf{参照透明性}と呼ぶ。
 複数の文を逐次的に実行する\textbf{ブロック構文}はなく、関数宣言の構文も省略した。以下に解析表現文法による定義を示す。
 
 \begin{table}[h]
