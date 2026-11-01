@@ -1,5 +1,5 @@
 title: "うさぎさんでもわかる並列言語Chapel"
-summary: "型推論とテンプレートと区分化大域アドレス空間を特徴とした並列プログラミング言語の解説記事。 https://nextzlog.dev/chpl.pdf"
+summary: "https://nextzlog.dev/chpl.pdf"
 topics:
   - "Chapel"
   - "並列処理"

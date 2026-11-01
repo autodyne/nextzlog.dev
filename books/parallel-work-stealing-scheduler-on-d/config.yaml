@@ -1,5 +1,5 @@
 title: "D言語で実装する並列スケジューラ入門"
-summary: "軽量スレッドによるタスク並列処理系を自作密行列積の速度を実測。高性能計算の基礎を学びます。 https://nextzlog.dev/dusk.pdf"
+summary: "https://nextzlog.dev/dusk.pdf"
 topics:
   - "D言語"
   - "並列処理"

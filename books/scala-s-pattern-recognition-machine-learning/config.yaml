@@ -1,5 +1,5 @@
 title: "Scalaで実装するパターン認識と機械学習"
-summary: "線型回帰からカーネル法まで。決定木から変分ベイズ法まで。機械学習の理論を実践的に学びます。 https://nextzlog.dev/mine.pdf"
+summary: "https://nextzlog.dev/mine.pdf"
 topics:
   - "Scala"
   - "機械学習"

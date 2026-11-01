@@ -1,5 +1,5 @@
 title: "Scalaで自作するプログラミング言語処理系"
-summary: "関数型言語を自作。パーサコンビネータも型推論も仮想マシンも手作り。計算論の基礎を学びます。 https://nextzlog.dev/fava.pdf"
+summary: "https://nextzlog.dev/fava.pdf"
 topics:
   - "Scala"
   - "自作言語"
