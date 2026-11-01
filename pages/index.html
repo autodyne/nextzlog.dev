@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang='ja'>
+<head>
+	<meta charset='UTF-8'>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<title>無線部開発班</title>
+	<meta name='description' content='無線部開発班は、アマチュア無線のコンテストのためのソフトウェアを開発しています。'>
+	<meta property='og:url' content='https://nextzlog.dev/'>
+	<meta property='og:type' content='website'>
+	<meta property='og:title' content='無線部開発班'>
+	<meta property='og:site_name' content='無線部開発班'>
+	<meta property='og:description' content='無線部開発班は、アマチュア無線のコンテストのためのソフトウェアを開発しています。'>
+	<meta property='og:locale' content='ja_JP'>
+	<link rel='canonical' href='https://nextzlog.dev/'>
+	<link rel='icon' href='/assets/icon.svg' type='image/svg+xml'>
+	<link rel='preconnect' href='https://fonts.googleapis.com'>
+	<link rel='preconnect' href='https://fonts.gstatic.com' crossorigin>
+	<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&display=swap'>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css'>
+	<link rel='stylesheet' href='/assets/site.css'>
+	<script defer src='/assets/site.js'></script>
+</head>
+<body>
+	<nav class='nav'>
+		<div class='nav-inner'>
+			<a class='nav-brand' href='/'><img src='/assets/icon.svg' alt=''>無線部開発班</a>
+			<div class='nav-links'>
+				<a href='#ats4'>ATS-4</a>
+				<a href='#zmax'>zLog Max</a>
+				<a href='#zylo'>ZyLO</a>
+				<a href='#cw4isr'>CW4ISR</a>
+				<a href='#books'>技術記事</a>
+				<a href='https://github.com/nextzlog' aria-label='GitHub'><i class='fa-brands fa-github' aria-hidden='true'></i></a>
+				<a href='https://twitter.com/nextzlog' aria-label='X'><i class='fa-brands fa-x-twitter' aria-hidden='true'></i></a>
+			</div>
+		</div>
+	</nav>
+	<main>
+		<section class='hero'>
+			<h1>コンテストを、<br>ソフトウェアで<br class='sp'>支える。</h1>
+			<p class='hero-lead'>アマチュア無線のコンテストに参加する人と開催する人のために、ソフトウェア・ソリューションを開発しています。</p>
+			<svg class='hero-morse' viewBox='0 0 492 24' aria-label='ZLO をモールス符号で表した線'>
+				<g class='morse-marks'>
+					<rect x='0' y='10' width='48' height='4' rx='2'/><rect x='60' y='10' width='48' height='4' rx='2'/><rect x='120' y='10' width='12' height='4' rx='2'/><rect x='144' y='10' width='12' height='4' rx='2'/><rect x='180' y='10' width='12' height='4' rx='2'/><rect x='204' y='10' width='48' height='4' rx='2'/><rect x='264' y='10' width='12' height='4' rx='2'/><rect x='288' y='10' width='12' height='4' rx='2'/><rect x='324' y='10' width='48' height='4' rx='2'/><rect x='384' y='10' width='48' height='4' rx='2'/><rect x='444' y='10' width='48' height='4' rx='2'/>
+				</g>
+			</svg>
+		</section>
+
+		<section class='feature' id='ats4'>
+			<div class='feature-text'>
+				<p class='kicker'>開催する人へ</p>
+				<h2>ATS-4</h2>
+				<p class='feature-lead'>コンテストの集計を、自動で。</p>
+				<p>ログの受付から規約に沿った照合、得点計算、結果の公開まで。ALLJA1 コンテストや電通大コンテストをはじめ、多くのコンテストで使われています。</p>
+				<div class='links'>
+					<a class='more' href='https://allja1.org'>ALLJA1 の ATS-4</a>
+					<a class='more' href='https://zenn.dev/nextzlog/books/amateur-radio-contest-administration-system'><i class='fa-solid fa-book-open' aria-hidden='true'></i> 解説書を読む</a>
+					<a class='more' href='/ats4.pdf'><i class='fa-regular fa-file-pdf' aria-hidden='true'></i> PDF</a>
+					<a class='more' href='https://github.com/nextzlog/ats4'><i class='fa-brands fa-github' aria-hidden='true'></i> GitHub</a>
+				</div>
+			</div>
+			<svg class='feature-art' viewBox='0 0 400 280' aria-hidden='true'>
+				<rect x='1' y='1' width='398' height='278' rx='20' class='art-frame'/>
+				<g class='art-line'>
+					<line x1='40' y1='230' x2='360' y2='230'/>
+					<line x1='40' y1='180' x2='360' y2='180' class='faint'/>
+					<line x1='40' y1='130' x2='360' y2='130' class='faint'/>
+					<line x1='40' y1='80' x2='360' y2='80' class='faint'/>
+				</g>
+				<g class='art-bars'>
+					<rect x='64' y='150' width='36' height='80' rx='4'/>
+					<rect x='124' y='110' width='36' height='120' rx='4'/>
+					<rect x='184' y='64' width='36' height='166' rx='4' class='accent'/>
+					<rect x='244' y='126' width='36' height='104' rx='4'/>
+					<rect x='304' y='170' width='36' height='60' rx='4'/>
+				</g>
+			</svg>
+		</section>
+
+		<section class='feature reverse' id='zmax'>
+			<div class='feature-text'>
+				<p class='kicker'>近日公開</p>
+				<h2>zLog Max</h2>
+				<p class='feature-lead'>次のロガーが、来る。</p>
+				<p>コンテストロガー zLog を Rust で作り直した、macOS、Windows、Linux 対応の新しい版です。コンテストの規約も、ファイル形式も、ウィンドウも、機器も、すべてを部品として組み合わせます。</p>
+				<div class='links'>
+					<a class='more' href='https://max.zlog.org'>max.zlog.org</a>
+					<a class='more' href='https://github.com/nextzlog/zmax'><i class='fa-brands fa-github' aria-hidden='true'></i> GitHub</a>
+				</div>
+			</div>
+			<svg class='feature-art' viewBox='0 0 400 280' aria-hidden='true'>
+				<rect x='1' y='1' width='398' height='278' rx='20' class='art-frame'/>
+				<rect x='32' y='40' width='336' height='200' rx='12' class='art-window'/>
+				<line x1='32' y1='70' x2='368' y2='70' class='art-sep'/>
+				<circle cx='52' cy='55' r='5' class='art-dot'/><circle cx='70' cy='55' r='5' class='art-dot'/><circle cx='88' cy='55' r='5' class='art-dot'/>
+				<g class='art-mono'>
+					<text x='52' y='102'>14:02  7MHz   CW  JA1ZLO  599 13M</text>
+					<text x='52' y='128'>14:03  7MHz   CW  JA1YWX  599 10H</text>
+					<text x='52' y='154'>14:05  14MHz  CW  JA1ZLO  599 13M</text>
+				</g>
+				<rect x='48' y='196' width='304' height='28' rx='6' class='art-input'/>
+				<rect x='60' y='203' width='2' height='14' class='art-caret'/>
+			</svg>
+		</section>
+
+		<section class='pair'>
+			<div class='card' id='zylo'>
+				<p class='kicker'>拡張する</p>
+				<h2>ZyLO</h2>
+				<p class='feature-lead'>zLog を、自由に広げる。</p>
+				<p>zLog 令和版の公式プラグイン開発キット。Go 言語で書いたプラグインを、zLog のプラグインマネージャから簡単に導入できます。</p>
+				<svg class='card-art' viewBox='0 0 320 120' aria-hidden='true'>
+					<rect x='16' y='34' width='112' height='52' rx='12' class='art-window'/>
+					<text x='72' y='65' class='art-label'>zLog</text>
+					<g class='art-line'>
+						<line x1='128' y1='60' x2='152' y2='60'/>
+						<line x1='152' y1='22' x2='152' y2='98'/>
+						<line x1='152' y1='22' x2='176' y2='22'/>
+						<line x1='152' y1='60' x2='176' y2='60'/>
+						<line x1='152' y1='98' x2='176' y2='98'/>
+					</g>
+					<rect x='176' y='8' width='128' height='28' rx='8' class='art-window accent-stroke'/>
+					<rect x='176' y='46' width='128' height='28' rx='8' class='art-window'/>
+					<rect x='176' y='84' width='128' height='28' rx='8' class='art-window'/>
+					<g class='art-mono small'>
+						<text x='240' y='26' text-anchor='middle'>plugin</text>
+						<text x='240' y='64' text-anchor='middle'>plugin</text>
+						<text x='240' y='102' text-anchor='middle'>plugin</text>
+					</g>
+				</svg>
+				<div class='links'>
+					<a class='more' href='/zylo.pdf'><i class='fa-regular fa-file-pdf' aria-hidden='true'></i> スライド (PDF)</a>
+					<a class='more' href='https://github.com/nextzlog/zylo'><i class='fa-brands fa-github' aria-hidden='true'></i> GitHub</a>
+				</div>
+			</div>
+			<div class='card' id='cw4isr'>
+				<p class='kicker'>聴き取る</p>
+				<h2>CW4ISR</h2>
+				<p class='feature-lead'>モールスを、AI で読む。</p>
+				<p>AI を使ったモールス解読アプリ。受信帯域にいるすべての局を同時に解読し、ウォーターフォールと並べて表示します。</p>
+				<svg class='card-art' viewBox='0 0 320 120' aria-hidden='true'>
+					<g class='art-line'>
+						<line x1='16' y1='44' x2='304' y2='44' class='faint'/>
+						<line x1='16' y1='80' x2='304' y2='80' class='faint'/>
+					</g>
+					<g class='art-bars'>
+						<text x='16' y='28' class='art-mono'>7.012</text><rect x='84' y='22' width='9' height='4' rx='2' class='accent'/><rect x='96' y='22' width='3' height='4' rx='2' class='accent'/><rect x='102' y='22' width='9' height='4' rx='2' class='accent'/><rect x='114' y='22' width='3' height='4' rx='2' class='accent'/><rect x='126' y='22' width='9' height='4' rx='2' class='accent'/><rect x='138' y='22' width='9' height='4' rx='2' class='accent'/><rect x='150' y='22' width='3' height='4' rx='2' class='accent'/><rect x='156' y='22' width='9' height='4' rx='2' class='accent'/><text x='304' y='28' text-anchor='end' class='art-mono small'>CQ</text>
+						<text x='16' y='64' class='art-mono'>7.018</text><rect x='84' y='58' width='3' height='4' rx='2'/><rect x='90' y='58' width='9' height='4' rx='2'/><rect x='102' y='58' width='9' height='4' rx='2'/><rect x='114' y='58' width='9' height='4' rx='2'/><rect x='132' y='58' width='3' height='4' rx='2'/><rect x='138' y='58' width='9' height='4' rx='2'/><rect x='156' y='58' width='3' height='4' rx='2'/><rect x='162' y='58' width='9' height='4' rx='2'/><rect x='174' y='58' width='9' height='4' rx='2'/><rect x='186' y='58' width='9' height='4' rx='2'/><rect x='198' y='58' width='9' height='4' rx='2'/><text x='304' y='64' text-anchor='end' class='art-mono small'>JA1</text>
+						<text x='16' y='100' class='art-mono'>7.025</text><rect x='84' y='94' width='3' height='4' rx='2' class='accent'/><rect x='90' y='94' width='3' height='4' rx='2' class='accent'/><rect x='96' y='94' width='3' height='4' rx='2' class='accent'/><rect x='102' y='94' width='3' height='4' rx='2' class='accent'/><rect x='108' y='94' width='3' height='4' rx='2' class='accent'/><rect x='120' y='94' width='9' height='4' rx='2' class='accent'/><rect x='132' y='94' width='3' height='4' rx='2' class='accent'/><rect x='144' y='94' width='9' height='4' rx='2' class='accent'/><rect x='156' y='94' width='3' height='4' rx='2' class='accent'/><text x='304' y='100' text-anchor='end' class='art-mono small'>5NN</text>
+					</g>
+				</svg>
+				<div class='links'>
+					<a class='more' href='https://github.com/nextzlog/cw4i/releases/tag/nightly'><i class='fa-solid fa-download' aria-hidden='true'></i> ダウンロード</a>
+					<a class='more' href='https://github.com/nextzlog/cw4i'><i class='fa-brands fa-github' aria-hidden='true'></i> GitHub</a>
+				</div>
+			</div>
+		</section>
+
+		<section class='band'>
+			<p class='kicker'>参画</p>
+			<h2>zLog 令和版</h2>
+			<p>無線部開発班は、多くの局に使われているコンテストロガー zLog 令和版の開発に参画しています。</p>
+			<a class='button' href='https://use.zlog.org'>use.zlog.org</a>
+		</section>
+
+		<section class='section'>
+			<h2 class='section-title'>らくらくコンテスト運営</h2>
+			<p class='section-lead'>ATS-4 を使ったコンテスト運営の流れを動画で紹介します。</p>
+			<div class='video'>
+				<iframe src='https://www.youtube-nocookie.com/embed/Yb6QY7BI4kA' title='らくらくコンテスト運営' loading='lazy' allowfullscreen></iframe>
+			</div>
+			<p class='center'><a class='more' href='/real.pdf'><i class='fa-regular fa-file-pdf' aria-hidden='true'></i> リアルタイムコンテストに zLog で参加する</a></p>
+		</section>
+
+		<section class='section alt' id='books'>
+			<h2 class='section-title'>技術記事</h2>
+			<p class='section-lead'>言語処理系から並列計算、機械学習まで。手を動かして基礎から学ぶ解説書です。</p>
+			<div class='books'>
+				<div class='card'>
+					<h3>Scala で自作する<br>プログラミング言語処理系</h3>
+					<p class='card-sub'>Computation Models &amp; Compilers on Scala</p>
+					<svg class='card-art' viewBox='0 -4 320 140' aria-hidden='true'><g class='art-line'><line x1='160' y1='16' x2='110' y2='50'/><line x1='160' y1='16' x2='210' y2='50'/><line x1='110' y1='50' x2='110' y2='84'/><line x1='110' y1='84' x2='70' y2='118'/><line x1='110' y1='84' x2='150' y2='118'/></g><circle cx='160' cy='16' r='13' class='art-node accent-stroke'/><text x='160' y='20' class='art-mono small' text-anchor='middle'>@</text><circle cx='110' cy='50' r='13' class='art-node'/><text x='110' y='54' class='art-mono small' text-anchor='middle'>λx</text><circle cx='210' cy='50' r='13' class='art-node'/><text x='210' y='54' class='art-mono small' text-anchor='middle'>2</text><circle cx='110' cy='84' r='13' class='art-node'/><text x='110' y='88' class='art-mono small' text-anchor='middle'>+</text><circle cx='70' cy='118' r='13' class='art-node'/><text x='70' y='122' class='art-mono small' text-anchor='middle'>x</text><circle cx='150' cy='118' r='13' class='art-node'/><text x='150' y='122' class='art-mono small' text-anchor='middle'>1</text></svg>
+					<div class='links'>
+						<a class='more' href='https://zenn.dev/nextzlog/books/computation-models-compilers-on-scala'><i class='fa-solid fa-book-open' aria-hidden='true'></i> Zenn で読む</a>
+						<a class='more' href='/fava.pdf'><i class='fa-regular fa-file-pdf' aria-hidden='true'></i> PDF</a>
+					</div>
+				</div>
+				<div class='card'>
+					<h3>Scala で実装する<br>パターン認識と機械学習</h3>
+					<p class='card-sub'>Scala's Pattern Recognition &amp; Machine Learning</p>
+					<svg class='card-art' viewBox='0 0 320 120' aria-hidden='true'><g class='art-line'><line x1='48' y1='32' x2='128' y2='18' class='faint'/><line x1='48' y1='32' x2='128' y2='46' class='faint'/><line x1='48' y1='32' x2='128' y2='74' class='faint'/><line x1='48' y1='32' x2='128' y2='102' class='faint'/><line x1='48' y1='60' x2='128' y2='18' class='faint'/><line x1='48' y1='60' x2='128' y2='46' class='faint'/><line x1='48' y1='60' x2='128' y2='74' class='faint'/><line x1='48' y1='60' x2='128' y2='102' class='faint'/><line x1='48' y1='88' x2='128' y2='18' class='faint'/><line x1='48' y1='88' x2='128' y2='46' class='faint'/><line x1='48' y1='88' x2='128' y2='74' class='faint'/><line x1='48' y1='88' x2='128' y2='102' class='faint'/><line x1='128' y1='18' x2='208' y2='18' class='faint'/><line x1='128' y1='18' x2='208' y2='46' class='faint'/><line x1='128' y1='18' x2='208' y2='74' class='faint'/><line x1='128' y1='18' x2='208' y2='102' class='faint'/><line x1='128' y1='46' x2='208' y2='18' class='faint'/><line x1='128' y1='46' x2='208' y2='46' class='faint'/><line x1='128' y1='46' x2='208' y2='74' class='faint'/><line x1='128' y1='46' x2='208' y2='102' class='faint'/><line x1='128' y1='74' x2='208' y2='18' class='faint'/><line x1='128' y1='74' x2='208' y2='46' class='faint'/><line x1='128' y1='74' x2='208' y2='74' class='faint'/><line x1='128' y1='74' x2='208' y2='102' class='faint'/><line x1='128' y1='102' x2='208' y2='18' class='faint'/><line x1='128' y1='102' x2='208' y2='46' class='faint'/><line x1='128' y1='102' x2='208' y2='74' class='faint'/><line x1='128' y1='102' x2='208' y2='102' class='faint'/><line x1='208' y1='18' x2='288' y2='46' class='faint'/><line x1='208' y1='18' x2='288' y2='74' class='faint'/><line x1='208' y1='46' x2='288' y2='46' class='faint'/><line x1='208' y1='46' x2='288' y2='74' class='faint'/><line x1='208' y1='74' x2='288' y2='46' class='faint'/><line x1='208' y1='74' x2='288' y2='74' class='faint'/><line x1='208' y1='102' x2='288' y2='46' class='faint'/><line x1='208' y1='102' x2='288' y2='74' class='faint'/></g><line x1='48' y1='60' x2='128' y2='74' class='art-path'/><line x1='128' y1='74' x2='208' y2='46' class='art-path'/><line x1='208' y1='46' x2='288' y2='46' class='art-path'/><circle cx='48' cy='32' r='9' class='art-node'/><circle cx='48' cy='60' r='9' class='art-node accent-stroke'/><circle cx='48' cy='88' r='9' class='art-node'/><circle cx='128' cy='18' r='9' class='art-node'/><circle cx='128' cy='46' r='9' class='art-node'/><circle cx='128' cy='74' r='9' class='art-node accent-stroke'/><circle cx='128' cy='102' r='9' class='art-node'/><circle cx='208' cy='18' r='9' class='art-node'/><circle cx='208' cy='46' r='9' class='art-node accent-stroke'/><circle cx='208' cy='74' r='9' class='art-node'/><circle cx='208' cy='102' r='9' class='art-node'/><circle cx='288' cy='46' r='9' class='art-node accent-stroke'/><circle cx='288' cy='74' r='9' class='art-node'/></svg>
+					<div class='links'>
+						<a class='more' href='https://zenn.dev/nextzlog/books/scala-s-pattern-recognition-machine-learning'><i class='fa-solid fa-book-open' aria-hidden='true'></i> Zenn で読む</a>
+						<a class='more' href='/mine.pdf'><i class='fa-regular fa-file-pdf' aria-hidden='true'></i> PDF</a>
+					</div>
+				</div>
+				<div class='card'>
+					<h3>D 言語で実装する<br>並列スケジューラ入門</h3>
+					<p class='card-sub'>Parallel Work-Stealing Scheduler on D</p>
+					<svg class='card-art' viewBox='0 0 320 120' aria-hidden='true'><g class='art-mono'><text x='16' y='24'>P0</text><text x='16' y='52'>P1</text><text x='16' y='80'>P2</text><text x='16' y='108'>P3</text></g><g class='art-bars'><rect x='44' y='11' width='36' height='16' rx='4'/><rect x='84' y='11' width='26' height='16' rx='4'/><rect x='114' y='11' width='46' height='16' rx='4'/><rect x='164' y='11' width='16' height='16' rx='4'/><rect x='184' y='11' width='36' height='16' rx='4' class='accent'/><rect x='44' y='39' width='56' height='16' rx='4'/><rect x='104' y='39' width='36' height='16' rx='4'/><rect x='44' y='67' width='26' height='16' rx='4'/><rect x='44' y='95' width='46' height='16' rx='4'/><rect x='94' y='95' width='26' height='16' rx='4'/><rect x='124' y='95' width='16' height='16' rx='4'/></g><path d='M240 27 C290 27 290 75 80 75' class='art-arrow'/><path d='M86 70 L78 75 L86 80' class='art-arrow solid'/></svg>
+					<div class='links'>
+						<a class='more' href='https://zenn.dev/nextzlog/books/parallel-work-stealing-scheduler-on-d'><i class='fa-solid fa-book-open' aria-hidden='true'></i> Zenn で読む</a>
+						<a class='more' href='/dusk.pdf'><i class='fa-regular fa-file-pdf' aria-hidden='true'></i> PDF</a>
+					</div>
+				</div>
+				<div class='card'>
+					<h3>うさぎさんでもわかる<br>並列言語 Chapel</h3>
+					<p class='card-sub'>Chapel the Parallel Programming Language</p>
+					<svg class='card-art' viewBox='0 0 320 120' aria-hidden='true'><g class='art-bars'><rect x='32' y='12' width='14' height='20' rx='3'/><rect x='48' y='12' width='14' height='20' rx='3'/><rect x='64' y='12' width='14' height='20' rx='3'/><rect x='80' y='12' width='14' height='20' rx='3'/><rect x='96' y='12' width='14' height='20' rx='3' class='accent'/><rect x='112' y='12' width='14' height='20' rx='3' class='accent'/><rect x='128' y='12' width='14' height='20' rx='3' class='accent'/><rect x='144' y='12' width='14' height='20' rx='3' class='accent'/><rect x='160' y='12' width='14' height='20' rx='3'/><rect x='176' y='12' width='14' height='20' rx='3'/><rect x='192' y='12' width='14' height='20' rx='3'/><rect x='208' y='12' width='14' height='20' rx='3'/><rect x='224' y='12' width='14' height='20' rx='3'/><rect x='240' y='12' width='14' height='20' rx='3'/><rect x='256' y='12' width='14' height='20' rx='3'/><rect x='272' y='12' width='14' height='20' rx='3'/></g><g class='art-line'><line x1='36' y1='40' x2='90' y2='40'/><line x1='63' y1='40' x2='63' y2='60'/><line x1='100' y1='40' x2='154' y2='40'/><line x1='127' y1='40' x2='127' y2='60'/><line x1='164' y1='40' x2='218' y2='40'/><line x1='191' y1='40' x2='191' y2='60'/><line x1='228' y1='40' x2='282' y2='40'/><line x1='255' y1='40' x2='255' y2='60'/></g><rect x='38' y='60' width='50' height='30' rx='8' class='art-window'/><rect x='102' y='60' width='50' height='30' rx='8' class='art-window accent-stroke'/><rect x='166' y='60' width='50' height='30' rx='8' class='art-window'/><rect x='230' y='60' width='50' height='30' rx='8' class='art-window'/><g class='art-mono small'><text x='63' y='110' text-anchor='middle'>locale 0</text><text x='127' y='110' text-anchor='middle'>locale 1</text><text x='191' y='110' text-anchor='middle'>locale 2</text><text x='255' y='110' text-anchor='middle'>locale 3</text></g></svg>
+					<div class='links'>
+						<a class='more' href='https://zenn.dev/nextzlog/books/chapel-the-parallel-programming-language'><i class='fa-solid fa-book-open' aria-hidden='true'></i> Zenn で読む</a>
+						<a class='more' href='/chpl.pdf'><i class='fa-regular fa-file-pdf' aria-hidden='true'></i> PDF</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class='section' id='develop'>
+			<h2 class='section-title'>開発に参加する</h2>
+			<p class='section-lead'>新機能の提案やバグ報告は GitHub の Issues で受け付けています。</p>
+			<ul class='issues' id='issues'></ul>
+			<p class='issues-fallback' hidden>Issues を読み込めませんでした。</p>
+			<p class='center'><a class='button' href='https://github.com/nextzlog/todo/issues'><i class='fa-brands fa-github' aria-hidden='true'></i> Issues をすべて見る</a></p>
+		</section>
+	</main>
+	<footer class='foot'>
+		<div class='foot-inner'>
+			<div class='foot-cols'>
+				<div>
+					<h4>プロダクト</h4>
+					<a href='https://allja1.org'>ATS-4</a>
+					<a href='https://max.zlog.org'>zLog Max</a>
+					<a href='https://github.com/nextzlog/zylo'>ZyLO</a>
+					<a href='https://github.com/nextzlog/cw4i'>CW4ISR</a>
+				</div>
+				<div>
+					<h4>関連</h4>
+					<a href='https://use.zlog.org'>zLog 令和版</a>
+					<a href='https://ja1zlo.u-tokyo.org'>東京大学アマチュア無線クラブ</a>
+					<a href='/real.pdf'>リアルタイムコンテスト</a>
+				</div>
+				<div>
+					<h4>開発</h4>
+					<a href='https://github.com/nextzlog'><i class='fa-brands fa-github' aria-hidden='true'></i> nextzlog</a>
+					<a href='https://github.com/autodyne'><i class='fa-brands fa-github' aria-hidden='true'></i> autodyne</a>
+					<a href='https://twitter.com/nextzlog'><i class='fa-brands fa-x-twitter' aria-hidden='true'></i> @nextzlog</a>
+				</div>
+			</div>
+			<p class='foot-copy'>無線部開発班</p>
+		</div>
+	</footer>
+</body>
+</html>
